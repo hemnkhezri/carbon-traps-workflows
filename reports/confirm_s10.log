@@ -1,0 +1,41 @@
+seed 10: 30 submissions
+600 jobs; setup 10s
+  0/600 done, 14s
+  100/600 done, 241s
+  200/600 done, 463s
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/home/claude/carbon-wf-forecast/run_confirm.py", line 94, in job
+    s_list, cl, _ = ca_list_repaired(inst, P, H, D, M, plan_p, tau=g)
+                    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/carbon-wf-forecast/cwf/sched.py", line 138, in ca_list_repaired
+    s2, cl2 = ca_list(inst, P, H, mid, plan_prefix, tau)
+              ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/carbon-wf-forecast/cwf/sched.py", line 104, in ca_list
+    s_early = _earliest(cl, d, est, H)
+  File "/home/claude/carbon-wf-forecast/cwf/sched.py", line 79, in _earliest
+    raise RuntimeError("horizon too short")
+RuntimeError: horizon too short
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/claude/carbon-wf-forecast/run_confirm.py", line 161, in <module>
+    main()
+    ~~~~^^
+  File "/home/claude/carbon-wf-forecast/run_confirm.py", line 151, in main
+    for k, r in enumerate(pool.imap_unordered(job, jobs, chunksize=2)):
+                ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+                              ^^^^^^
+  File "/usr/local/lib/python3.13/multiprocessing/pool.py", line 873, in next
+    raise value
+RuntimeError: horizon too short

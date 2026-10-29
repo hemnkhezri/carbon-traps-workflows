@@ -61,7 +61,7 @@ def job(args):
     rows = []
     for f in FACTORS:
         D = int(round(f * M))
-        H = min(D + T * 60, PLAN_WIN * 30)
+        H = D + T * 60  # scheduler horizon; planning CI padded beyond the forecast (see CONFIRM_DEVIATIONS.md)
         Hx = len(act) * 30
         act_p = minute_series(act, Hx)
         base = heft(inst, P, H)
@@ -84,7 +84,9 @@ def job(args):
                              heft_carbon_kg=cb_nom * POWER_KW / 60 / 1000, M=M, D=D))
 
         for regime, ci in (("oracle", act[:PLAN_WIN]), ("synthetic", syn), ("issued", iss)):
-            plan_p = minute_series(ci, H)
+            n_need = int(np.ceil(H / 30))
+            ci_pad = np.concatenate([ci, np.full(max(0, n_need - len(ci)), ci[-1])])
+            plan_p = minute_series(ci_pad, H)
             # whole-workflow shift
             sp = shift_plan(inst, base, M, D, plan_p)
             record("Shift", regime, sp, bool((sp == base).all()))
