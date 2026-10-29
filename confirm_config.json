@@ -1,0 +1,14 @@
+{
+  "P": 8,
+  "power_kw": 0.2,
+  "targets_h": [4, 12],
+  "factors": [1.2, 1.5, 2.0, 3.0],
+  "n_sub": 30,
+  "seeds": [10, 11, 12, 13, 14],
+  "months": ["2026-07", "2026-08", "2026-09", "2026-10"],
+  "synthetic_sigma": 0.20,
+  "runtime_sigma": 0.20,
+  "gate_alpha": 0.9,
+  "archive_commit": "578de5b3c3b999bdccd4aaf8401d1b31a5405423",
+  "cawosched_commit": "dfc8e49c692bb6178bb88514a9f9e8fb8b1bdf7b"
+}
