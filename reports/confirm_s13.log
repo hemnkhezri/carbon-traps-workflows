@@ -1,0 +1,9 @@
+seed 13: 30 submissions
+600 jobs; setup 8s
+  0/600 done, 12s
+  100/600 done, 216s
+  200/600 done, 406s
+  300/600 done, 653s
+  400/600 done, 887s
+  500/600 done, 1057s
+wrote results/confirm_s13.csv: 31200 rows in 1280s

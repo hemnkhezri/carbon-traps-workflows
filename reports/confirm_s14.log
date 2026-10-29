@@ -1,0 +1,9 @@
+seed 14: 30 submissions
+600 jobs; setup 8s
+  0/600 done, 11s
+  100/600 done, 210s
+  200/600 done, 426s
+  300/600 done, 657s
+  400/600 done, 891s
+  500/600 done, 1054s
+wrote results/confirm_s14.csv: 31200 rows in 1271s

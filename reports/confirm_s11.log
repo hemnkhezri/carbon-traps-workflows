@@ -1,0 +1,9 @@
+seed 11: 30 submissions
+600 jobs; setup 8s
+  0/600 done, 13s
+  100/600 done, 247s
+  200/600 done, 460s
+  300/600 done, 696s
+  400/600 done, 914s
+  500/600 done, 1085s
+wrote results/confirm_s11.csv: 31200 rows in 1316s
