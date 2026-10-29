@@ -1,0 +1,74 @@
+seed 0 montage-s    T=4h tasks=198 M=224min
+seed 0 montage-s    T=12h tasks=198 M=718min
+seed 0 montage-l    T=4h tasks=395 M=236min
+seed 0 montage-l    T=12h tasks=395 M=718min
+seed 0 epigenomics  T=4h tasks=297 M=240min
+seed 0 epigenomics  T=12h tasks=297 M=711min
+seed 0 blast        T=4h tasks=298 M=241min
+seed 0 blast        T=12h tasks=298 M=718min
+seed 0 bwa          T=4h tasks=298 M=240min
+seed 0 bwa          T=12h tasks=298 M=708min
+seed 0 cycles       T=4h tasks=297 M=238min
+seed 0 cycles       T=12h tasks=297 M=708min
+seed 0 1000genome   T=4h tasks=298 M=238min
+seed 0 1000genome   T=12h tasks=298 M=719min
+seed 0 seismology   T=4h tasks=298 M=212min
+seed 0 seismology   T=12h tasks=298 M=710min
+seed 0 soykb        T=4h tasks=298 M=238min
+seed 0 soykb        T=12h tasks=298 M=722min
+seed 0 srasearch    T=4h tasks=298 M=239min
+seed 0 srasearch    T=12h tasks=298 M=716min
+seed 1 montage-s    T=4h tasks=196 M=233min
+seed 1 montage-s    T=12h tasks=196 M=719min
+seed 1 montage-l    T=4h tasks=395 M=237min
+seed 1 montage-l    T=12h tasks=395 M=718min
+seed 1 epigenomics  T=4h tasks=297 M=239min
+seed 1 epigenomics  T=12h tasks=297 M=711min
+seed 1 blast        T=4h tasks=298 M=242min
+seed 1 blast        T=12h tasks=298 M=720min
+seed 1 bwa          T=4h tasks=298 M=239min
+seed 1 bwa          T=12h tasks=298 M=724min
+seed 1 cycles       T=4h tasks=297 M=239min
+seed 1 cycles       T=12h tasks=297 M=721min
+seed 1 1000genome   T=4h tasks=298 M=237min
+seed 1 1000genome   T=12h tasks=298 M=719min
+seed 1 seismology   T=4h tasks=298 M=221min
+seed 1 seismology   T=12h tasks=298 M=700min
+seed 1 soykb        T=4h tasks=298 M=239min
+seed 1 soykb        T=12h tasks=298 M=722min
+seed 1 srasearch    T=4h tasks=297 M=241min
+seed 1 srasearch    T=12h tasks=297 M=715min
+seed 2 montage-s    T=4h tasks=197 M=233min
+seed 2 montage-s    T=12h tasks=197 M=719min
+seed 2 montage-l    T=4h tasks=391 M=240min
+seed 2 montage-l    T=12h tasks=391 M=714min
+seed 2 epigenomics  T=4h tasks=297 M=238min
+seed 2 epigenomics  T=12h tasks=297 M=709min
+seed 2 blast        T=4h tasks=298 M=241min
+seed 2 blast        T=12h tasks=298 M=720min
+seed 2 bwa          T=4h tasks=298 M=240min
+seed 2 bwa          T=12h tasks=298 M=719min
+seed 2 cycles       T=4h tasks=297 M=239min
+seed 2 cycles       T=12h tasks=297 M=710min
+seed 2 1000genome   T=4h tasks=298 M=237min
+seed 2 1000genome   T=12h tasks=298 M=720min
+seed 2 seismology   T=4h tasks=298 M=216min
+seed 2 seismology   T=12h tasks=298 M=727min
+seed 2 soykb        T=4h tasks=294 M=238min
+seed 2 soykb        T=12h tasks=294 M=721min
+seed 2 srasearch    T=4h tasks=298 M=241min
+seed 2 srasearch    T=12h tasks=298 M=715min
+2400 jobs; setup 12s
+  0/2400 done, 15s
+  200/2400 done, 160s
+  400/2400 done, 285s
+  600/2400 done, 428s
+  800/2400 done, 559s
+  1000/2400 done, 706s
+  1200/2400 done, 831s
+  1400/2400 done, 974s
+  1600/2400 done, 1101s
+  1800/2400 done, 1239s
+  2000/2400 done, 1370s
+  2200/2400 done, 1506s
+wrote results/pilot.csv: 93600 rows in 1639s

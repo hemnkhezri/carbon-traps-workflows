@@ -1,0 +1,40 @@
+== Sanity checks (section 7)
+completed jobs: 2400 (planned 2400); rows 93600
+HEFT deadline misses: 0
+carbon-aware deadline misses: 0
+oracle median saving of CA-List by f: {1.2: 0.0, 1.5: 2.15, 2.0: 7.08}
+repair modes: {'direct': 45544, 'repaired': 31652, 'heft-fallback': 9204}
+
+== Primary outcomes (issued regime, ungated)
+  sched   f  oracle  synthetic  issued  loss_pp  trap_pct  syn_trap_pct    n
+CA-List 1.2    0.00       0.00    0.00     0.00     19.54         25.71 2400
+CA-List 1.5    2.15       1.06    0.23     1.91     27.67         33.46 2400
+CA-List 2.0    7.08       5.41    2.78     4.30     31.96         32.08 2400
+  CA-LS 1.2    0.48       0.06    0.03     0.46     25.83         35.75 2400
+  CA-LS 1.5    2.64       1.53    0.71     1.93     29.50         35.04 2400
+  CA-LS 2.0    7.27       5.45    2.93     4.34     31.79         31.92 2400
+
+STOP RULE -> CONTINUE to confirmatory study
+
+== Exploratory: gated schedulers
+       sched   f  oracle  issued  trap_pct
+CA-List+Gate 1.2    0.00     0.0      6.21
+CA-List+Gate 1.5    0.07     0.0      9.46
+CA-List+Gate 2.0    4.57     0.0     11.58
+  CA-LS+Gate 1.2    0.00     0.0      6.67
+  CA-LS+Gate 1.5    0.32     0.0      9.58
+  CA-LS+Gate 2.0    4.73     0.0     11.71
+
+== Exploratory: by makespan target (CA-LS, issued vs oracle)
+regime  issued  oracle  synthetic  trap_issued_pct
+T  f                                              
+4  1.2    0.00    0.10       0.00            24.42
+   1.5    0.00    1.13       0.38            29.00
+   2.0    0.02    2.95       1.21            36.83
+12 1.2    0.74    1.58       0.65            27.25
+   1.5    2.95    5.74       4.41            30.00
+   2.0    7.48   11.56      10.15            26.75
+
+== Exploratory: mean (not median) saving and trap severity, CA-LS issued
+mean saving %: {1.2: 1.21, 1.5: 3.28, 2.0: 6.56}
+trap runs: median excess emissions % over HEFT: 2.1
