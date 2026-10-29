@@ -109,8 +109,15 @@ def ca_list(inst, P, H, D, plan_prefix, tau=None):
             if len(cand):
                 c = plan_prefix[cand + d] - plan_prefix[cand]
                 k = int(np.argmin(c))  # first minimum = earliest tie
-                if c[k] < cost(plan_prefix, s_early, d):
-                    gain = (cost(plan_prefix, s_early, d) - c[k]) / d
+                c0 = cost(plan_prefix, s_early, d)
+                if hasattr(tau, "threshold_vec"):
+                    # risk-adjusted: maximise forecast gain minus calibrated error quantile
+                    adj = (c0 - c) / d - tau.threshold_vec(s_early, cand, d)
+                    k = int(np.argmax(adj))
+                    if adj[k] > 0:
+                        best = int(cand[k])
+                elif c[k] < c0:
+                    gain = (c0 - c[k]) / d
                     if tau is None or gain > tau:
                         best = int(cand[k])
         start[i] = best
@@ -162,7 +169,12 @@ def local_search(inst, P, H, D, plan_prefix, start, cl, rng, tau=None, iters_per
         if len(cand):
             c = plan_prefix[cand + d] - plan_prefix[cand]
             k = int(np.argmin(c))
-            if c[k] < cur - 1e-9 and (tau is None or (cur - c[k]) / d > tau):
+            if hasattr(tau, "threshold_vec"):
+                adj = (cur - c) / d - tau.threshold_vec(start[i], cand, d)
+                k = int(np.argmax(adj))
+                if adj[k] > 0 and c[k] < cur - 1e-9:
+                    start[i] = int(cand[k])
+            elif c[k] < cur - 1e-9 and (tau is None or (cur - c[k]) / d > tau):
                 start[i] = int(cand[k])
                 moved = True
         cl.place(start[i], d, +1)
@@ -173,3 +185,10 @@ def realised(inst, start, act_prefix, D):
     c = float(sum(cost(act_prefix, int(s), int(d)) for s, d in zip(start, inst.dur)))
     makespan = int(max(start + inst.dur))
     return c, makespan, makespan > D
+
+
+def safeguard(inst, start, base, plan_prefix):
+    """Keep the HEFT plan unless the carbon-aware plan is cheaper on the planning CI."""
+    c_plan = float(sum(plan_prefix[a + d] - plan_prefix[a] for a, d in zip(start, inst.dur)))
+    c_base = float(sum(plan_prefix[a + d] - plan_prefix[a] for a, d in zip(base, inst.dur)))
+    return (start, False) if c_plan < c_base else (base, True)
