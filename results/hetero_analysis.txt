@@ -1,0 +1,110 @@
+== Sanity checks
+rows 76800  jobs 1600  (planned 1600)
+nominal misses (safeguarded + Shift) 0
+oracle trap rate CA-List+SG: 0.00% (must be 0)
+oracle trap rate CA-LS+SG: 0.00% (must be 0)
+oracle trap rate CWM+SG: 0.00% (must be 0)
+
+== Hypotheses (pooled)
+G1 R = 0.85 [0.80, 0.90] -> False
+G2 traps: 1.2: 1.56 [0.56, 2.81]; 1.5: 4.31 [2.06, 7.06]; 2.0: 4.31 [1.69, 7.62]; 3.0: 5.38 [2.50, 9.00] -> False
+G3 trap diff = -2.17 [-3.84, -0.97]; retention = 1.06 [1.02, 1.09] -> True
+G4 R_native(CWM+SG) = 0.32 [0.01, 0.57] -> True
+G5 miss - HEFT miss: 1.2: 67.94 [64.38, 71.31]; 1.5: 76.00 [73.25, 78.69]; 2.0: 63.19 [58.56, 67.50]; 3.0: 49.94 [45.12, 54.50] -> True
+
+== Descriptive (means, %)
+
+-- saving
+region                  CISO    DE  ERCO   PJM
+sched           regime                        
+CA-LS+SG        issued  7.49  7.10  3.45  5.25
+                oracle  7.98  7.69  5.75  5.74
+CA-LS+SG+Gate   issued  7.77  7.65  3.05  6.11
+CA-List+SG      issued  7.26  6.83  3.30  5.02
+                oracle  7.71  7.40  5.55  5.55
+CA-List+SG+Gate issued  7.62  7.47  3.01  6.00
+CWM             issued -1.45  0.23 -1.03 -0.20
+                oracle -1.88  0.27 -0.65 -0.05
+CWM+SG          issued  2.00  1.26 -0.03  0.48
+                oracle  2.00  1.56  0.86  0.62
+Shift           issued  4.37  3.29 -0.23  0.49
+                oracle  4.82  3.94  1.43  0.91
+
+-- native_saving
+region                   CISO     DE   ERCO    PJM
+sched           regime                            
+CA-LS+SG        issued  36.98  36.00 -29.71 -21.73
+                oracle  46.47  47.88  42.14  41.83
+CA-LS+SG+Gate   issued  37.58  39.36  -8.90  24.62
+CA-List+SG      issued  35.79  34.51 -30.52 -22.96
+                oracle  44.94  46.34  40.83  40.75
+CA-List+SG+Gate issued  36.98  38.26  -9.01  24.24
+CWM             issued -12.43   2.55 -28.30 -17.63
+                oracle -20.21   3.85  -1.69   4.32
+CWM+SG          issued  15.15  15.90 -10.02  -3.33
+                oracle  18.63  17.71  16.39  13.11
+Shift           issued  21.72  21.46 -36.63 -40.73
+                oracle  31.43  33.25  27.86  27.98
+
+-- trap1
+region                   CISO     DE   ERCO    PJM
+sched           regime                            
+CA-LS+SG        issued   2.81   1.19  11.06   0.50
+                oracle   0.00   0.00   0.00   0.00
+CA-LS+SG+Gate   issued   0.38   0.06   6.38   0.06
+CA-List+SG      issued   2.81   1.31  11.19   0.56
+                oracle   0.00   0.00   0.00   0.00
+CA-List+SG+Gate issued   0.38   0.12   6.31   0.06
+CWM             issued  37.62  29.25  37.06  27.94
+                oracle  40.06  29.25  34.12  24.00
+CWM+SG          issued   2.12   3.75  14.94   1.69
+                oracle   0.00   0.00   0.00   0.00
+Shift           issued   2.19   5.19  21.75   4.69
+                oracle   0.00   0.00   0.00   0.00
+
+-- fast-machine share (%)
+sched            regime
+CA-LS+SG         issued    59.1
+                 oracle    59.4
+CA-LS+SG+Gate    issued    58.6
+CA-List+SG       issued    58.6
+                 oracle    58.8
+CA-List+SG+Gate  issued    58.3
+CWM              issued    59.2
+                 oracle    59.4
+CWM+SG           issued    56.8
+                 oracle    56.9
+Shift            issued    55.0
+                 oracle    55.0
+
+-- miss_rt % (issued) by f
+f                 1.2   1.5   2.0   3.0
+sched                                  
+CA-LS+SG         73.9  76.0  63.2  49.9
+CA-LS+SG+Gate    76.4  66.2  45.0  27.9
+CA-List+SG       61.2  74.4  60.8  48.4
+CA-List+SG+Gate  68.5  65.6  43.7  26.9
+CWM              90.2  79.9  78.9  68.3
+CWM+SG           48.9  39.4  39.8  37.7
+Shift            49.9  37.4  33.8  20.0
+
+-- homogeneous (extension, seed 30) vs heterogeneous: mean emission saving %
+                           homog  hetero
+sched           regime                  
+CA-LS+SG        issued      3.49    5.82
+                oracle      5.05    6.79
+                synthetic   2.61     NaN
+CA-LS+SG+Gate   issued      3.30    6.15
+CA-List+SG      issued      3.39    5.60
+                oracle      4.93    6.55
+                synthetic   2.55     NaN
+CA-List+SG+Gate issued      3.27    6.03
+CWM+SG          issued      1.52    0.92
+                oracle      2.00    1.26
+CaWoSched+SG    issued      3.19     NaN
+                oracle      4.36     NaN
+Shift           issued      3.46    1.98
+                oracle      4.70    2.78
+                synthetic   3.66     NaN
+CWM             issued       NaN   -0.61
+                oracle       NaN   -0.58
