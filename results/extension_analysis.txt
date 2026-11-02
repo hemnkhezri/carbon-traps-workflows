@@ -1,0 +1,122 @@
+== Sanity checks
+rows 288000  jobs 4800  (planned 4800)
+nominal misses 0
+oracle trap rate CA-List+SG: 0.00% (must be 0)
+oracle trap rate CA-LS+SG: 0.00% (must be 0)
+oracle trap rate CaWoSched+SG: 0.00% (must be 0)
+oracle trap rate CWM+SG: 0.00% (must be 0)
+
+== Primary (pooled over regions)
+[pooled] E1 R = 0.66 [0.60, 0.72] -> True
+[pooled] E2 traps: 1.2: 6.42 [4.83, 8.23]; 1.5: 12.06 [9.39, 14.84]; 2.0: 16.10 [13.18, 19.12]; 3.0: 16.35 [13.25, 19.50] -> True
+[pooled] E3 trap diff = -8.12 [-9.83, -6.51]; retention = 0.87 [0.82, 0.93] -> True
+[pooled] E4a miss - HEFT miss: 1.2: 37.19 [35.17, 39.28]; 1.5: 43.40 [40.60, 45.91]; 2.0: 40.06 [37.52, 42.66]; 3.0: 27.60 [24.73, 30.60] -> True
+[pooled] E4b gated - ungated miss = -21.46 [-23.06, -19.83] -> True
+SUMMARY {'E1': np.True_, 'E2': True, 'E3': np.True_, 'E4': np.True_}
+
+== Secondary (per region)
+[CISO] E1 R = 0.85 [0.81, 0.89] -> False
+[CISO] E2 traps: 1.2: 2.92 [1.61, 4.59]; 1.5: 6.00 [3.56, 8.81]; 2.0: 8.25 [5.34, 11.48]; 3.0: 6.50 [3.50, 9.75] -> False
+[CISO] E3 trap diff = -4.67 [-6.67, -2.90]; retention = 0.87 [0.81, 0.94] -> True
+[CISO] E4a miss - HEFT miss: 1.2: 34.50 [29.84, 38.98]; 1.5: 42.75 [38.20, 47.63]; 2.0: 41.92 [36.92, 47.05]; 3.0: 30.00 [23.83, 36.50] -> True
+[CISO] E4b gated - ungated miss = -19.83 [-22.83, -17.08] -> True
+[DE] E1 R = 0.76 [0.67, 0.84] -> False
+[DE] E2 traps: 1.2: 5.17 [2.70, 8.03]; 1.5: 9.33 [5.93, 13.07]; 2.0: 12.58 [7.75, 17.83]; 3.0: 11.25 [6.61, 16.50] -> True
+[DE] E3 trap diff = -7.50 [-10.34, -4.83]; retention = 0.92 [0.84, 1.01] -> True
+[DE] E4a miss - HEFT miss: 1.2: 40.33 [36.02, 44.59]; 1.5: 49.33 [43.90, 54.58]; 2.0: 45.33 [39.83, 50.98]; 3.0: 28.25 [22.20, 34.50] -> True
+[DE] E4b gated - ungated miss = -20.10 [-23.03, -17.29] -> True
+[ERCO] E1 R = 0.19 [-0.05, 0.36] -> True
+[ERCO] E2 traps: 1.2: 15.50 [10.85, 20.82]; 1.5: 28.50 [20.58, 36.72]; 2.0: 34.00 [26.08, 41.78]; 3.0: 35.25 [26.39, 43.90] -> True
+[ERCO] E3 trap diff = -13.46 [-18.46, -9.00]; retention = 0.88 [-1.65, 4.01] -> False
+[ERCO] E4a miss - HEFT miss: 1.2: 43.50 [39.92, 46.95]; 1.5: 47.25 [43.47, 50.85]; 2.0: 42.25 [37.88, 46.51]; 3.0: 31.17 [26.53, 35.66] -> True
+[ERCO] E4b gated - ungated miss = -23.94 [-27.00, -20.99] -> True
+[PJM] E1 R = 0.52 [0.41, 0.62] -> True
+[PJM] E2 traps: 1.2: 2.08 [0.68, 3.83]; 1.5: 4.42 [2.00, 7.13]; 2.0: 9.58 [5.42, 14.49]; 3.0: 12.42 [7.58, 17.58] -> False
+[PJM] E3 trap diff = -6.85 [-9.75, -4.23]; retention = 0.61 [0.46, 0.79] -> False
+[PJM] E4a miss - HEFT miss: 1.2: 30.42 [26.44, 34.34]; 1.5: 34.25 [28.47, 39.75]; 2.0: 30.75 [25.67, 35.82]; 3.0: 21.00 [15.08, 27.17] -> True
+[PJM] E4b gated - ungated miss = -21.96 [-25.91, -18.20] -> True
+
+== Descriptive: mean emission saving % and native-objective saving % (oracle vs issued)
+
+-- saving
+regime               issued  oracle  synthetic
+sched        region                           
+CA-LS+SG     CISO      7.76    9.12       6.45
+             DE        5.01    6.65       3.86
+             ERCO      0.87    4.62       2.18
+             PJM       0.93    1.80       0.36
+CWM+SG       CISO      3.45    3.66        NaN
+             DE        2.03    2.52        NaN
+             ERCO      0.46    1.70        NaN
+             PJM       0.37    0.67        NaN
+CaWoSched+SG CISO      6.99    8.01        NaN
+             DE        4.49    5.77        NaN
+             ERCO      0.86    4.02        NaN
+             PJM       0.83    1.53        NaN
+Shift        CISO      7.55    8.69       7.79
+             DE        5.04    6.22       5.05
+             ERCO      1.15    4.34       3.15
+             PJM       0.92    1.67       0.65
+
+-- native_saving
+regime               issued  oracle  synthetic
+sched        region                           
+CA-LS+SG     CISO     21.73   32.40       1.63
+             DE       16.74   32.75      -3.12
+             ERCO    -68.15   33.31     -54.71
+             PJM      -5.31   32.85     -47.65
+CWM+SG       CISO     18.21   22.01        NaN
+             DE       17.04   20.39        NaN
+             ERCO     -6.95   22.49        NaN
+             PJM       7.00   21.88        NaN
+CaWoSched+SG CISO     29.40   39.46        NaN
+             DE       28.26   40.49        NaN
+             ERCO    -12.52   43.51        NaN
+             PJM      12.45   42.24        NaN
+Shift        CISO     20.98   30.45      19.94
+             DE       16.54   29.63      13.58
+             ERCO    -34.94   30.01      -6.14
+             PJM      -3.68   29.64     -13.31
+
+-- trap1 % issued by scheduler and region
+region           CISO    DE   ERCO   PJM
+sched                                   
+CA-LS+SG         5.92  9.58  28.31  7.12
+CA-LS+SG+Gate    1.25  2.08  14.85  0.27
+CA-List+SG       5.88  9.44  27.85  6.98
+CA-List+SG+Gate  1.29  1.98  14.83  0.27
+CWM+SG           4.52  5.88  13.98  2.35
+CaWoSched+SG     4.67  8.46  22.77  5.29
+Shift            5.06  8.40  23.08  5.88
+
+-- deadline misses with runtime noise, issued, by scheduler and f
+                     miss_rt  heft
+sched           f                 
+CA-LS+SG        1.2    40.69  3.50
+                1.5    43.48  0.08
+                2.0    40.06  0.00
+                3.0    27.60  0.00
+CA-LS+SG+Gate   1.2    20.77  3.50
+                1.5    20.00  0.08
+                2.0    16.52  0.00
+                3.0     8.71  0.00
+CA-List+SG      1.2    33.44  3.50
+                1.5    39.73  0.08
+                2.0    36.33  0.00
+                3.0    24.90  0.00
+CA-List+SG+Gate 1.2    19.48  3.50
+                1.5    18.56  0.08
+                2.0    15.60  0.00
+                3.0     8.12  0.00
+CWM+SG          1.2    38.12  3.50
+                1.5    36.12  0.08
+                2.0    37.54  0.00
+                3.0    33.02  0.00
+CaWoSched+SG    1.2    32.69  3.50
+                1.5    27.27  0.08
+                2.0    22.44  0.00
+                3.0    14.17  0.00
+Shift           1.2    39.60  3.50
+                1.5    33.06  0.08
+                2.0    26.40  0.00
+                3.0    12.81  0.00
