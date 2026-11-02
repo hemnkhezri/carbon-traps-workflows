@@ -3,9 +3,13 @@ Meyerhenke, ICPP 2025; github.com/KIT-EAE/CaWoSched, MIT licence).
 
 CaWoSched keeps a fixed mapping and per-processor order (here: from HEFT) and
 shifts start times to minimise brown energy above a time-varying green power
-budget. Following CWM (arXiv 2605.27652), carbon intensity is mapped to a
-green budget by inverting and linearly rescaling it into [0, P x work power]
-over the planning horizon. Idle power is set to 0 (idle power is not
+budget. As in CWM (arXiv 2605.27652), carbon intensity is inverted and
+linearly rescaled into a green budget; unlike CWM, which rescales into
+[P_min, P_min + 0.2 or 0.4 x dynamic power], we use the full range
+[0, frac x P x work power] with frac = 1.0 (the confirmatory setting). A
+development-data check (EXTENSION_NOTES.md) found frac = 1.0 gives CaWoSched
+the highest oracle emission saving, so this choice does not handicap it. Idle
+power is set to 0 (idle power is not
 attributed in our model) and every cross-machine edge carries a 1-minute transfer in CaWoSched (its
 validity check rejects zero-volume edges), which is slightly conservative for
 CaWoSched; our simulator has no transfer time, so its schedules stay valid.
@@ -37,7 +41,7 @@ def machine_assignment(start, dur, P):
     return m
 
 
-def run(inst, P, D, heft_start, plan_ci_windows):
+def run(inst, P, D, heft_start, plan_ci_windows, frac=1.0):
     """Return (start_times or None, info)."""
     dur = inst.dur
     mach = machine_assignment(heft_start, dur, P)
@@ -45,7 +49,7 @@ def run(inst, P, D, heft_start, plan_ci_windows):
     ci = np.asarray(plan_ci_windows[:n_int], float)
     lo, hi = ci.min(), ci.max()
     rel = (hi - ci) / (hi - lo) if hi > lo else np.ones_like(ci)
-    budget = np.round(rel * P * WORK * BUDGET_SCALE).astype(int)
+    budget = np.round(rel * frac * P * WORK * BUDGET_SCALE).astype(int)
     bounds = [min(30 * k, D) for k in range(n_int + 1)]
     with tempfile.TemporaryDirectory() as td:
         dag = os.path.join(td, "wf.dot")

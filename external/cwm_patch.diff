@@ -1,0 +1,47 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 775a88d..7dfcf75 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -97,6 +97,7 @@ apply_project_build_settings(CWMLib)
+ # ------------------------------------------------------------------------------
+ set(APP_SOURCES
+     app/main.cpp
++    app/cwm_dump.cpp
+ )
+ 
+ foreach(src ${APP_SOURCES})
+diff --git a/lib/algorithms/local_search.cpp b/lib/algorithms/local_search.cpp
+index c4adeed..7ee4f44 100644
+--- a/lib/algorithms/local_search.cpp
++++ b/lib/algorithms/local_search.cpp
+@@ -5,6 +5,7 @@
+ #include <climits>
+ #include <cstdint>
+ #include <set>
++#include <queue>  // added: portability (GCC 13)
+ 
+ namespace {
+ constexpr unsigned int LOCAL_SEARCH_MAX_ITERATIONS = 500;
+diff --git a/lib/algorithms/mapper.cpp b/lib/algorithms/mapper.cpp
+index ca6b7ae..af15edd 100755
+--- a/lib/algorithms/mapper.cpp
++++ b/lib/algorithms/mapper.cpp
+@@ -1,3 +1,4 @@
++#include <queue>  // added: portability (GCC 13)
+ #include <algorithms/mapper.hpp>
+ #include <climits>
+ #include <cassert>
+diff --git a/lib/algorithms/mapper.hpp b/lib/algorithms/mapper.hpp
+index 6c0e4be..92d6f29 100755
+--- a/lib/algorithms/mapper.hpp
++++ b/lib/algorithms/mapper.hpp
+@@ -114,6 +114,9 @@ class CaWoMap {
+     unsigned int final_compute_carbon_cost_fast();
+ 
+     Schedule& get_final_schedule() { return final_schedule; }
++    // added by adapter (read-only accessors, no algorithmic change)
++    const std::vector<std::pair<unsigned int, unsigned int>>& get_final_times() const { return final_start_and_end_times; }
++    const std::vector<unsigned int>& get_final_procs() const { return final_processor_of_task; }
+ 
+     unsigned int compute_final_makespan();
+ 
