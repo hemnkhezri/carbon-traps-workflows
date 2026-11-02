@@ -34,3 +34,10 @@ E4 (runtime noise) was met in every region.
 - **CWM and CaWoSched on their native objective (brown energy).** The oracle saving is large: CWM about 22%, CaWoSched 40-44%. With issued forecasts it drops sharply and turns negative in ERCO (CWM -7%, CaWoSched -13%). The forecast-loss finding therefore also holds on the algorithms' own objective.
 - **CWM has the lowest trap rate.** It traps least among the non-gated schedulers (2.4-14%) but saves least on emissions (0.4-3.5%), which matches the homogeneous-platform caveat in EXTENSION_NOTES.md.
 - **Deadline misses with runtime noise.** Every carbon-aware scheduler misses 8-43% of deadlines; HEFT misses at most 3.5%. The gate roughly halves the miss rate of CA-LS.
+
+## Exploratory (post hoc, not pre-registered): what explains the regional spread
+The ratio of forecast MAE (0-47 h) to the intraday SD of actual CI orders the grids exactly as R does
+(`forecast_skill.py`, Fig. 7): CISO 0.46 -> R 0.85; DE 0.56 -> 0.76; GB 0.67 -> 0.68; PJM 1.03 -> 0.52;
+ERCO 1.47 -> 0.19. The relative MAE alone does not (PJM has the lowest relative MAE, 4.5%, but a flat
+CI profile). What decides the loss is forecast error relative to the variation that scheduling exploits.
+Five points, two data sources (operator vs research forecaster, 2026 vs 2021): reported as a pattern, not a fitted law.
