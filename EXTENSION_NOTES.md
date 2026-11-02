@@ -28,3 +28,15 @@ Interpretation: the green-budget proxy used by CWM and CaWoSched can diverge fro
 and CWM is designed for heterogeneous clusters with idle power, which our platform lacks.
 Consequence for the extension: evaluate CWM and CaWoSched on both emissions and their native
 objective, and add a heterogeneous platform with idle power.
+
+## 3. CWM budget fraction on the heterogeneous platform (GB dev data, Jun-Aug 2023)
+Seed 0, 6 submissions, 5 workflows, 2 T, 4 f (n = 240 per regime); raw CWM (no safeguard), mean vs heterogeneous HEFT:
+
+| frac | oracle emission saving | oracle native saving | issued emission saving |
+| --- | --- | --- | --- |
+| 0.2 | -1.85% | 2.43% | -1.68% |
+| 0.4 | -1.38% | 6.43% | -1.48% |
+| 1.0 (chosen) | -0.11% | 15.90% | -0.41% |
+
+frac = 1.0 is best for CWM on both metrics, so it is used in EXT2_PREREG.md.
+A 2-workflow smoke test (8 jobs) ran without invalid CWM schedules or nominal misses.
