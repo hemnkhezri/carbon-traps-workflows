@@ -15,7 +15,7 @@ import pandas as pd
 from cwf import cawosched, cwm
 from cwf.data import CIData, WIN, load_national
 from cwf.execute import execute, noisy_durations
-from cwf.gate import DiffGate
+from cwf.gate import HOR_EDGES_H, DiffGate
 from cwf.gates_alt import calibrate_all
 from cwf.replan import execute_reactive, gated_shift, plan_ls_from, receding_ls, receding_shift
 from cwf.sched import ca_list_repaired, heft, local_search, minute_series, safeguard
@@ -115,6 +115,36 @@ def job(args):
                         rec("RH-CA-LS+SG" + ("+Gate" if gated else ""), regime, s, False, rt=False, extra=dict(n_replans=nre))
                         s = receding_shift(inst, base, M, D, prefix_at, EVERY, tt)
                         rec("RH-Shift" + ("+Gate" if gated else ""), regime, s, bool((s == base).all()), rt=False)
+        elif PART == "R2":
+            # Post-hoc additions requested by the second internal review (EXT3_DEVIATIONS.md item 2; exploratory).
+            rng = lambda k: np.random.default_rng([seed, int(t0) // WIN, wi, T, int(f * 10), k])
+            pp_o = minute_series(pad(act[:PLAN_WIN], H), H); pp_i = minute_series(pad(iss, H), H)
+            # (a) receding horizon on the oracle signal and on the stale submission-time vintage
+            s, nre = receding_ls(inst, P, H, D, M, lambda t: pp_o, EVERY, rng(5))
+            rec("RH-CA-LS+SG", "oracle", s, False, rt=False, extra=dict(n_replans=nre))
+            s, nre = receding_ls(inst, P, H, D, M, lambda t: pp_i, EVERY, rng(5))
+            rec("RH-CA-LS+SG[stale]", "issued", s, False, rt=False, extra=dict(n_replans=nre))
+            # (b) uncertainty-aware planning on an upper forecast quantile F + qU(horizon), alpha 0.9
+            lg = G["level"]
+            hor_h = (lg.cap + 30 * np.arange(len(iss)) + 15) / 60.0
+            hb = np.clip(np.searchsorted(HOR_EDGES_H, hor_h, side="right") - 1, 0, len(HOR_EDGES_H) - 2)
+            pq = minute_series(pad(iss + lg.qU[hb], H), H)
+            sq, cl, _ = ca_list_repaired(inst, P, H, D, M, pq)
+            sq = local_search(inst, P, H, D, pq, sq, cl, rng(0))
+            sq2, used = safeguard(inst, sq, base, pq); rec("CA-LS+SG[Q0.9]", "issued", sq2, used)
+            # (c) correlated runtime noise: a job-wide factor plus task noise, same marginal sigma
+            z = np.random.default_rng([seed, int(t0) // WIN, wi, T, int(f * 10), 11])
+            eta = np.sqrt(0.5) * RT_SIGMA * (z.normal() + z.normal(size=len(inst.dur)))
+            rc = np.maximum(1, np.round(inst.dur * np.exp(eta))).astype(int)
+            hc_s, hc_f = execute(inst, base, rc, P, Hx)
+            for rho, nm in ((1.0, "CA-LS+SG"), (0.75, "CA-LS+SG+Res75")):
+                Dp = int(M + rho * (D - M))
+                s1, cl, _ = ca_list_repaired(inst, P, H, Dp, M, pp_i)
+                s1 = local_search(inst, P, H, Dp, pp_i, s1, cl, rng(0))
+                s1, used = safeguard(inst, s1, base, pp_i)
+                _, fc = execute(inst, s1, rc, P, Hx)
+                rec(nm + "[corr]", "issued", s1, used, rt=False,
+                    extra=dict(miss_corr=int(fc.max()) > D, heft_miss_corr=int(hc_f.max()) > D))
         else:
             for regime, ci in regimes:
                 pp = minute_series(pad(ci, H), H)

@@ -17,3 +17,15 @@ numbers (R = 0.82 [0.73, 0.90], trap 10.4%) are not reported in the paper.
 
 The gate thresholds q used at a re-plan are those calibrated at submission; only
 the vintage age (lag) is updated. Recalibrating at every re-plan was not in the plan.
+
+## 2. Post-hoc additions after the second internal review (2026-11-04; exploratory, not in the sealed plan)
+
+Run as `--part R2` on seeds 10 and 11 (results/rev/R2_s10s11.csv), after all sealed Q1-Q6 results were known:
+(a) receding-horizon CA-LS on the oracle signal, and on the submission-time vintage at every re-plan
+("stale"), to separate information gain from optimisation gain in Q1 (replaces the use of the
+erroneous run of item 1 as a control, which also mis-scaled the gate lag);
+(b) an uncertainty-aware planner: CA-LS+SG planning on F + qU(horizon), the 0.9-quantile of level
+errors per horizon bin (same calibration as the level gate);
+(c) correlated runtime noise: log-runtime = sqrt(0.5) * 0.2 * (job factor + task factor), same
+marginal sigma as the main analysis; static executor; CA-LS+SG, CA-LS+SG+Res75 and HEFT.
+All results from these runs are reported as exploratory.
