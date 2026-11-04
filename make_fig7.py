@@ -1,7 +1,7 @@
 """Fig. 7: forecast loss across grids (exploratory). R and its 95% CI come from the sealed analyses
 (GB: reports of analyse_confirm.py / CONFIRM_RESULTS.md; regions: results/extension_analysis.txt).
 Error-to-variability ratio = MAE of 0-47 h forecasts / mean within-vintage SD of actual CI
-(computed by forecast_skill.py). Trap rates: CA-LS+SG under issued forecasts, all f pooled."""
+(grid-month points from skill_by_month.py). Trap rates: CA-LS+SG under issued forecasts, all f pooled."""
 import json
 import matplotlib
 matplotlib.use("Agg")
@@ -11,20 +11,24 @@ S = json.load(open("figures/fig7_data.json"))
 plt.rcParams.update({"font.family": "serif", "font.size": 9})
 BLUE, ORANGE, NEUTRAL = "#2a78d6", "#eb6834", "#8a8984"
 fig, (a, b) = plt.subplots(1, 2, figsize=(7.0, 2.8), gridspec_kw={"width_ratios": [1.1, 1]})
-for r in S:
-    x, (m, lo, hi) = r["ratio"], r["R"]
-    a.errorbar(x, m, yerr=[[m - lo], [hi - m]], fmt="o", color=BLUE if r["region"] != "GB" else ORANGE,
-               ms=6, capsize=3, lw=1.2, mec="white", mew=1)
-    a.annotate(r["region"], (x, m), xytext=(7, 3), textcoords="offset points", fontsize=8)
-a.axhline(0.75, color=NEUTRAL, ls="--", lw=1); a.text(1.5, 0.77, "H1/E1 threshold", fontsize=7, color="#555", ha="right")
-a.set_xlabel("Forecast error / intraday variability of CI"); a.set_ylabel("R = issued / oracle saving")
-a.set_ylim(-0.1, 1.0); a.set_xlim(0.3, 1.6); a.set_title("(a) Share of the oracle saving kept", fontsize=9, loc="left")
+import pandas as pd
+from scipy.stats import spearmanr
+M = pd.read_csv("results/skill_by_month.csv")
+mk = {"CISO": "o", "DE": "s", "GB": "D", "PJM": "^", "ERCO": "v"}
+for reg, g in M.groupby("region"):
+    a.scatter(g.ratio, g.R, marker=mk[reg], s=26, color=ORANGE if reg == "GB" else BLUE, edgecolor="white", lw=0.6, label=reg, zorder=3)
+rho = spearmanr(M.ratio, M.R)[0]
+a.text(0.97, 0.95, f"Spearman rho = {rho:.2f} (n = {len(M)} grid-months)", transform=a.transAxes, ha="right", va="top", fontsize=7.5)
+a.axhline(0.75, color=NEUTRAL, ls="--", lw=1)
+a.set_xlabel("Forecast MAE / intraday SD of carbon intensity"); a.set_ylabel("R = issued / oracle saving")
+a.legend(frameon=False, fontsize=7, ncol=3, loc="upper right", bbox_to_anchor=(1.0, 0.70), handletextpad=0.2, columnspacing=0.8)
+a.set_title("(a) Share of the oracle saving kept, per grid-month", fontsize=9, loc="left")
 order = sorted(S, key=lambda r: r["ratio"])
 y = np.arange(len(order))
 b.barh(y + 0.19, [r["trap"] for r in order], height=0.36, color=BLUE, label="CA-LS+SG")
 b.barh(y - 0.19, [r["trap_gate"] for r in order], height=0.36, color=ORANGE, label="CA-LS+SG+Gate")
 b.set_yticks(y, [r["region"] for r in order]); b.invert_yaxis()
-b.set_xlabel("Carbon-trap rate, issued (%)"); b.set_title("(b) Traps without and with the gate", fontsize=9, loc="left")
+b.set_xlabel("Carbon-trap rate, forecast regime (%)"); b.set_title("(b) Traps without and with the gate", fontsize=9, loc="left")
 for ax in (a, b):
     ax.spines[["top", "right"]].set_visible(False)
 a.grid(axis="y", color="#e5e5e5", lw=0.6); b.grid(axis="x", color="#e5e5e5", lw=0.6)
