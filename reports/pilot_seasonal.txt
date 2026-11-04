@@ -1,0 +1,7 @@
+Development period (GB, Mar 2023 - Feb 2024), pilot CA-LS WITHOUT safeguard, f in {1.5, 2.0}; exploratory
+                    oracle %  issued %     R  trap1 issued %  trap1 oracle %  submissions
+season                                                                                   
+1 winter (Dec-Feb)      8.94      5.31  0.59           18.39            9.94           30
+2 spring (Mar-May)      7.54      5.09  0.67           15.10            7.17           33
+3 summer (Jun-Aug)      6.23      3.14  0.50           22.99            8.16           29
+4 autumn (Sep-Nov)      8.89      6.15  0.69           17.26           11.67           28

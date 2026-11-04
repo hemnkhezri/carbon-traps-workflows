@@ -1,0 +1,43 @@
+== confirm: rows 156000; distinct submission times 147; days 78; weeks 14
+rows per job and sched x regime combinations per f: 13 [('CA-LS+SG', 'issued'), ('CA-LS+SG', 'oracle'), ('CA-LS+SG', 'synthetic'), ('CA-LS+SG+Gate', 'issued'), ('CA-List+SG', 'issued'), ('CA-List+SG', 'oracle'), ('CA-List+SG', 'synthetic'), ('CA-List+SG+Gate', 'issued'), ('CaWoSched+SG', 'issued'), ('CaWoSched+SG', 'oracle'), ('Shift', 'issued'), ('Shift', 'oracle'), ('Shift', 'synthetic')]
+
+-- cluster unit: t0 (n = 147)
+H1/E1 R = 0.681 [0.609, 0.738]  p = 0.0105
+H2/E2 traps: 1.2: 7.5 [5.6, 9.7]; 1.5: 13.2 [10.3, 16.1]; 2.0: 15.9 [12.6, 19.3]; 3.0: 15.0 [11.7, 18.7]  p = 0.0000
+H3 diff = 0.68 [-0.06, 1.55] pp  p = 0.0380
+H4/E3 trap diff = -8.65 [-10.83, -6.64] pp; retention 0.84 [0.77, 0.92]  p = 0.0000
+H5 CA-List+SG: R = 0.678 [0.605, 0.736]; min trap lower bound 4.8%  p = 0.0090
+H5 CaWoSched+SG: R = 0.731 [0.668, 0.784]; min trap lower bound 5.5%  p = 0.2495
+Holm (one-sided, family alpha 0.025): H2: p=0.0000, Holm=0.0000 -> supported | H4: p=0.0000, Holm=0.0000 -> supported | H5 CA-List+SG: p=0.0090, Holm=0.0360 -> not supported | H1: p=0.0105, Holm=0.0360 -> not supported | H3: p=0.0380, Holm=0.0760 -> not supported | H5 CaWoSched+SG: p=0.2495, Holm=0.2495 -> not supported
+
+-- cluster unit: day (n = 78)
+H1/E1 R = 0.681 [0.594, 0.745]  p = 0.0175
+H2/E2 traps: 1.2: 7.5 [5.4, 10.0]; 1.5: 13.2 [10.1, 16.5]; 2.0: 15.9 [12.4, 19.6]; 3.0: 15.0 [11.2, 19.2]  p = 0.0000
+H3 diff = 0.68 [-0.18, 1.69] pp  p = 0.0620
+H4/E3 trap diff = -8.65 [-11.43, -6.34] pp; retention 0.84 [0.76, 0.93]  p = 0.0000
+H5 CA-List+SG: R = 0.678 [0.590, 0.743]; min trap lower bound 4.7%  p = 0.0150
+H5 CaWoSched+SG: R = 0.731 [0.653, 0.791]; min trap lower bound 5.4%  p = 0.2905
+Holm (one-sided, family alpha 0.025): H2: p=0.0000, Holm=0.0000 -> supported | H4: p=0.0000, Holm=0.0000 -> supported | H5 CA-List+SG: p=0.0150, Holm=0.0600 -> not supported | H1: p=0.0175, Holm=0.0600 -> not supported | H3: p=0.0620, Holm=0.1240 -> not supported | H5 CaWoSched+SG: p=0.2905, Holm=0.2905 -> not supported
+
+-- cluster unit: week (n = 14)
+H1/E1 R = 0.681 [0.601, 0.755]  p = 0.0445
+H2/E2 traps: 1.2: 7.5 [5.3, 10.2]; 1.5: 13.2 [9.1, 18.1]; 2.0: 15.9 [11.4, 21.4]; 3.0: 15.0 [11.0, 19.0]  p = 0.0000
+H3 diff = 0.68 [-0.42, 1.98] pp  p = 0.1365
+H4/E3 trap diff = -8.65 [-12.14, -5.80] pp; retention 0.84 [0.76, 0.90]  p = 0.0000
+H5 CA-List+SG: R = 0.678 [0.598, 0.754]; min trap lower bound 4.7%  p = 0.0365
+H5 CaWoSched+SG: R = 0.731 [0.650, 0.806]; min trap lower bound 5.3%  p = 0.3375
+Holm (one-sided, family alpha 0.025): H2: p=0.0000, Holm=0.0000 -> supported | H4: p=0.0000, Holm=0.0000 -> supported | H5 CA-List+SG: p=0.0365, Holm=0.1460 -> not supported | H1: p=0.0445, Holm=0.1460 -> not supported | H3: p=0.1365, Holm=0.2730 -> not supported | H5 CaWoSched+SG: p=0.3375, Holm=0.3375 -> not supported
+
+-- R per f, absolute loss and emission-weighted ratio (CA-LS+SG; cluster unit day)
+f=1.2: R = 0.65 [0.56, 0.73]; loss = 1.09 [0.85, 1.36] pp; emission-weighted R = 0.71
+f=1.5: R = 0.67 [0.58, 0.75]; loss = 2.60 [2.03, 3.25] pp; emission-weighted R = 0.74
+f=2.0: R = 0.68 [0.59, 0.75]; loss = 4.46 [3.53, 5.51] pp; emission-weighted R = 0.78
+f=3.0: R = 0.68 [0.59, 0.75]; loss = 6.71 [5.38, 8.27] pp; emission-weighted R = 0.78
+
+-- trap-threshold sensitivity, issued, all f (%), and expected excess emission per run (% of HEFT)
+CA-LS+SG           >0%:  17.9  >1%:  12.9  >2%:  10.7  >5%:   7.3  E[excess] = 1.40%
+CA-LS+SG+Gate      >0%:   7.8  >1%:   4.2  >2%:   3.4  >5%:   1.9  E[excess] = 0.35%
+CA-List+SG         >0%:  15.9  >1%:  12.6  >2%:  10.6  >5%:   7.2  E[excess] = 1.40%
+CA-List+SG+Gate    >0%:   7.7  >1%:   4.3  >2%:   3.4  >5%:   1.9  E[excess] = 0.35%
+CaWoSched+SG       >0%:  16.1  >1%:  11.4  >2%:   9.2  >5%:   5.7  E[excess] = 1.02%
+Shift              >0%:  18.2  >1%:  13.8  >2%:  11.2  >5%:   7.4  E[excess] = 1.33%

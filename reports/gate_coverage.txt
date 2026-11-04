@@ -1,0 +1,9 @@
+overall coverage (nominal 0.90): 0.898  pairs: 1285074  submissions: 147
+per-submission coverage: median 0.902  10th pct 0.82
+coverage by lag (rows) x horizon (cols):
+         0-6h  6-12h  12-24h  24-48h
+0-3h    0.908  0.902   0.900   0.899
+3-6h    0.899  0.895   0.896   0.898
+6-12h     NaN  0.887   0.907   0.891
+12-24h    NaN    NaN   0.890   0.898
+24-48h    NaN    NaN     NaN   0.902
