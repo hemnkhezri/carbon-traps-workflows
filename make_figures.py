@@ -78,6 +78,7 @@ for ax, (s, title) in zip(axes, [("CA-LS+SG", "(a) CA-LS + safeguard"),
     ax.set_xticks(X, XL)
 fig.supxlabel("Deadline factor f (D = f x HEFT makespan)", fontsize=8, y=-0.04)
 axes[0].set_ylabel("Mean carbon saving vs HEFT (%)")
+axes[0].set_ylim(bottom=0)
 h, l = axes[0].get_legend_handles_labels()
 fig.legend(h, l, loc="upper center", ncol=3, bbox_to_anchor=(0.5, 1.08))
 save(fig, "fig4_saving_vs_slack")

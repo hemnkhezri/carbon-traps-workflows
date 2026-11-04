@@ -1,0 +1,9 @@
+== Q6 Official tools with budget fraction (GB): mean saving % oracle / issued, R (f >= 1.5), trap1 issued %
+CWM+SG[0.2]            4.62 /   3.46   R 0.74   trap1 7.6
+CWM+SG[0.4]            4.28 /   3.19   R 0.74   trap1 7.7
+CWM+SG[1.0]            4.47 /   3.28   R 0.73   trap1 8.0
+CWM[0.2]              -7.07 /  -6.35   R 0.90   trap1 44.5
+CWM[0.4]              -3.75 /  -3.69   R 1.00   trap1 42.2
+CWM[1.0]              -0.23 /  -0.81   R 56.25   trap1 39.9
+CaWoSched+SG[0.2]      9.40 /   7.15   R 0.76   trap1 9.1
+CaWoSched+SG[0.4]      9.52 /   7.31   R 0.77   trap1 9.2

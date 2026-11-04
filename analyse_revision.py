@@ -7,6 +7,8 @@ import pandas as pd
 
 B = 2000
 A = pd.concat([pd.read_csv(p) for p in sys.argv[1].split(",")])
+# a later file (e.g. the corrected RH re-run, EXT3_DEVIATIONS.md item 1) replaces rows of earlier ones
+A = A.drop_duplicates(["seed", "wf", "T", "f", "t0", "sched", "regime"], keep="last")
 Bd = pd.concat([pd.read_csv(p) for p in sys.argv[2].split(",")]) if len(sys.argv) > 2 and sys.argv[2] else None
 F = sorted(A.f.unique()); FS = [f for f in F if f >= 1.5]
 
