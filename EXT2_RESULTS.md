@@ -36,3 +36,17 @@ The pre-registered emission criteria G1 and G2 are not met on the heterogeneous 
 reports this. The likely reason is dilution: when the machine choice can save energy at any time, the share of
 the saving that depends on forecasts is small. The forecast-dependent part (native objective, G4; timing gain,
 exploratory) is lost to an even larger degree than on the homogeneous platform.
+
+## Exploratory addition: CaWoSched+SG on the heterogeneous platform (EXT2_DEVIATIONS.md item 1)
+`explore_cawo_het.py`, same 1,600 jobs; outputs `results/het/cawo_*.csv`. All CaWoSched schedules valid; 0 nominal
+misses; oracle trap rate 0. CaWoSched keeps the heterogeneous-HEFT mapping, so it can only re-time tasks.
+
+| | CISO | DE | ERCO | PJM |
+|---|---|---|---|---|
+| Emission saving, oracle / issued (%) | 4.19 / 3.79 | 3.44 / 2.81 | 1.29 / -0.27 | 0.77 / 0.42 |
+| Native-objective saving, oracle / issued (%) | 36.2 / 26.5 | 39.6 / 30.4 | 34.9 / -9.9 | 32.8 / -16.7 |
+| trap1, issued (%) | 2.3 | 6.3 | 23.4 | 4.7 |
+
+Pooled R (f >= 1.5) = 0.71 (point estimate). Misses with runtime noise (issued): 47.6, 39.6, 35.5, 25.4% at f = 1.2-3.0.
+Reading: a scheduler that can only re-time work (no energy-aware remapping) loses as much to forecasts on the
+heterogeneous platform as on the homogeneous one (R 0.71 vs 0.73 in GB). This supports the dilution explanation for G1/G2.
