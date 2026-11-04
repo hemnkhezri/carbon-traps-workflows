@@ -15,14 +15,14 @@ def skill(fc, act):
     out = []
     for m, g in f.groupby("month"):
         caps = g.groupby("capture_utc")
-        sd = caps.a.std().mean(); mae = (g.forecast - g.a).abs().mean(); mape = ((g.forecast - g.a).abs() / g.a).mean()
+        sd = caps.a.std().mean(); mae = (g.forecast - g.a).abs().mean(); mape = (g.forecast - g.a).abs().sum() / g.a.abs().sum()  # WAPE (MAPE is undefined when actual CI is near 0)
         taus, d6 = [], []
         for _, v in caps:
             if len(v) < 24 or v.a.std() == 0: continue
             taus.append(kendalltau(v.forecast, v.a)[0])
             F, A = v.forecast.to_numpy(), v.a.to_numpy(); L = 12
             if len(F) > L: d6.append(np.abs((F[:-L] - F[L:]) - (A[:-L] - A[L:])))
-        out.append(dict(month=m, ratio=mae / sd, mape=mape, one_minus_tau=1 - np.nanmean(taus),
+        out.append(dict(month=m, ratio=mae / sd, mape=mape, sd=sd, one_minus_tau=1 - np.nanmean(taus),
                         diff6_over_sd=np.quantile(np.concatenate(d6), 0.9) / sd))
     return pd.DataFrame(out)
 S = []
@@ -42,8 +42,28 @@ M = R.merge(S, on=["region", "month"]); M = M[M.subs >= 3]
 print(M.round(3).to_string(index=False))
 rng = np.random.default_rng(2026)
 print(f"\n{len(M)} grid-months. Spearman correlation with R [95% bootstrap over grid-months]:")
-for c in ["ratio", "mape", "one_minus_tau", "diff6_over_sd"]:
+for c in ["ratio", "mape", "one_minus_tau", "diff6_over_sd", "sd"]:
     r = spearmanr(M[c], M.R)[0]
     bs = [spearmanr(*M.iloc[rng.integers(0, len(M), len(M))][[c, "R"]].T.values)[0] for _ in range(2000)]
     print(f"  {c:15s} rho = {r:+.2f} [{np.nanpercentile(bs, 2.5):+.2f}, {np.nanpercentile(bs, 97.5):+.2f}]")
 M.to_csv("results/skill_by_month.csv", index=False)
+
+# Second review: separate within-grid from between-grid association, and control for SD(A).
+from scipy.stats import rankdata
+def resid(y, x):
+    y = rankdata(y); x = rankdata(x); b = np.polyfit(x, y, 1); return y - np.polyval(b, x)
+print("\nPartial Spearman with R controlling for SD(A) (rank residuals):")
+for c in ["ratio", "mape", "one_minus_tau"]:
+    r = np.corrcoef(resid(M[c], M.sd), resid(M.R, M.sd))[0, 1]
+    bs = []
+    for _ in range(2000):
+        x = M.iloc[rng.integers(0, len(M), len(M))]
+        bs.append(np.corrcoef(resid(x[c], x.sd), resid(x.R, x.sd))[0, 1])
+    print(f"  {c:15s} {r:+.2f} [{np.nanpercentile(bs, 2.5):+.2f}, {np.nanpercentile(bs, 97.5):+.2f}]")
+print("\nWithin-grid association (Spearman of grid-centred ranks; per-grid Spearman):")
+for c in ["ratio", "mape", "one_minus_tau"]:
+    W = M.copy(); W["rx"] = W.groupby("region")[c].rank(); W["ry"] = W.groupby("region").R.rank()
+    W["rx"] -= W.groupby("region").rx.transform("mean"); W["ry"] -= W.groupby("region").ry.transform("mean")
+    per = {g: round(spearmanr(x[c], x.R)[0], 2) for g, x in M.groupby("region")}
+    print(f"  {c:15s} pooled within {np.corrcoef(W.rx, W.ry)[0, 1]:+.2f}  per grid {per}")
+print("\nBetween grids (grid means): ", M.groupby("region")[["R", "ratio", "mape", "sd"]].mean().round(3).to_dict("index"))

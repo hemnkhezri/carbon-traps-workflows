@@ -35,30 +35,32 @@ fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.1, 2.7), gridspec_kw=dict(width_ra
 V = [("CA-LS+SG", "CA-LS", BLUE, "o"), ("CA-LS+SG+Res75", "CA-LS, reserve 25%", BLUE, "s"),
      ("CA-LS+SG+Res50", "CA-LS, reserve 50%", BLUE, "D"), ("CA-LS+SG+Gate[diff0.9]", "CA-LS + gate", AQUA, "o"),
      ("Shift", "Shift", ORANGE, "o"), ("Shift+Gate", "Shift + gate", ORANGE, "D")]
-off = {"CA-LS": (4, 4), "CA-LS, reserve 25%": (5, 3), "CA-LS, reserve 50%": (5, -9), "CA-LS + gate": (5, 4),
-       "Shift": (-6, 6), "Shift + gate": (6, -3)}
+off = {"CA-LS": (6, 6), "CA-LS, reserve 25%": (8, 5), "CA-LS, reserve 50%": (8, -6), "CA-LS + gate": (8, -7),
+       "Shift": (0, 9), "Shift + gate": (8, -3)}
 x0 = A[A.sched == "CA-LS+SG"]
 for s, lab, col, mk in V:
     x = A[A.sched == s]; y = 100 * x.saving.mean(); m1 = 100 * x.miss_rt.mean(); m2 = 100 * x.miss_rr.mean()
     a1.plot([m1, m2], [y, y], color=col, lw=1, alpha=0.6)
     a1.plot(m1, y, marker=mk, color=col, ms=6, ls="", markeredgecolor="white", markeredgewidth=0.8)
     a1.plot(m2, y, marker=mk, color="white", ms=5.5, ls="", markeredgecolor=col, markeredgewidth=1.4)
-    ha = "right" if off[lab][0] < 0 else "left"
-    a1.annotate(lab, (max(m1, m2) if ha == "left" else min(m1, m2), y), xytext=off[lab], textcoords="offset points",
+    ha = "center" if off[lab][0] == 0 else ("right" if off[lab][0] < 0 else "left")
+    a1.annotate(lab, ((m1 + m2) / 2 if ha == "center" else max(m1, m2), y), xytext=off[lab], textcoords="offset points",
                 ha=ha, va="center", fontsize=7, color=INK)
 hm = 100 * x0.heft_miss_rt.mean()
 a1.plot(hm, 0, marker="s", color=NEUTRAL, ms=6, ls="", markeredgecolor="white")
 a1.annotate("HEFT", (hm, 0), xytext=(5, 3), textcoords="offset points", fontsize=7, color=INK)
 a1.plot([], [], marker="o", color=INK2, ls="", ms=5, label="Static executor")
 a1.plot([], [], marker="o", color="white", markeredgecolor=INK2, markeredgewidth=1.4, ls="", ms=5, label="Reactive executor")
+for c_, l_ in ((BLUE, "CA-LS variants"), (AQUA, "CA-LS + gate"), (ORANGE, "Shift variants")):
+    a1.plot([], [], marker="s", color=c_, ls="", ms=5, label=l_)
 a1.set_xlabel("Deadline misses with runtime noise (%)"); a1.set_ylabel("Mean carbon saving vs HEFT (%)")
 a1.set_xlim(-2, 54); a1.set_ylim(-0.6, 11)
-a1.legend(loc="lower right"); a1.set_title("(a) Saving and deadline risk, all f", loc="left", fontsize=8.5, color=INK)
+a1.legend(loc="lower right", ncol=1, fontsize=6.8, handletextpad=0.2, labelspacing=0.3); a1.set_title("(a) Saving and deadline risk, all f", loc="left", fontsize=8.5, color=INK)
 # (b) misses by deadline factor
 F = sorted(A.f.unique()); X = np.arange(len(F))
 for s, col, lab, col_, ls, mk, dx in [("CA-LS+SG", BLUE, "CA-LS, static", "miss_rt", "-", "o", -0.12),
                                        ("CA-LS+SG", BLUE, "CA-LS, reactive", "miss_rr", "--", "o", -0.04),
-                                       ("CA-LS+SG+Res75", AQUA, "CA-LS, reserve 25%, static", "miss_rt", "-", "s", 0.04),
+                                       ("CA-LS+SG+Res75", BLUE, "CA-LS, reserve 25%, static", "miss_rt", "-.", "s", 0.04),
                                        ("CA-LS+SG", NEUTRAL, "HEFT, static", "heft_miss_rt", ":", "s", 0.12)]:
     arr = np.array([mci(A[(A.sched == s) & (A.f == f)], col_) for f in F])
     a2.errorbar(X + dx, arr[:, 0], yerr=[arr[:, 0] - arr[:, 1], arr[:, 2] - arr[:, 0]], color=col, ls=ls, marker=mk,

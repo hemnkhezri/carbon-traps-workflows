@@ -3,7 +3,7 @@ import numpy as np, matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 BLUE, ORANGE, AQUA, NEUTRAL = "#2a78d6", "#eb6834", "#1baf7a", "#8a8984"
-plt.rcParams.update({"font.family": "serif", "font.size": 9})
+plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8.5})
 t = np.linspace(0, 24, 481)
 actual = 195 - 50 * np.exp(-((t - 3.5) / 3.0) ** 2) + 6 * np.sin(t / 3.2)
 forecast = 195 - 70 * np.exp(-((t - 14.5) / 2.6) ** 2) + 6 * np.sin(t / 3.2)
@@ -16,9 +16,9 @@ a.axvspan(*ca, ymin=0.02, ymax=0.12, color=AQUA, alpha=0.9)
 a.text(np.mean(heft), 104, "HEFT plan", ha="center", va="center", color="white", fontsize=8)
 a.text(np.mean(ca), 104, "carbon-aware", ha="center", va="center", color="white", fontsize=8)
 a.axvline(D, color="#444", lw=1, ls=":"); a.text(D + 0.3, 104, "D", fontsize=9, color="#444", ha="left", style="italic")
-a.annotate("forecast dip\n(where work is deferred)", xy=(14.5, 127), xytext=(16.3, 145), fontsize=7.5,
+a.annotate("forecast dip", xy=(13.9, 124), xytext=(11.6, 126), ha="right", va="center", fontsize=7.5,
            arrowprops=dict(arrowstyle="->", color=ORANGE), color=ORANGE)
-a.annotate("actual dip (now)", xy=(3.5, 147), xytext=(6.0, 132), fontsize=7.5, arrowprops=dict(arrowstyle="->", color=BLUE), color=BLUE)
+a.annotate("actual dip (now)", xy=(3.5, 147), xytext=(0.4, 127), va="center", fontsize=7.5, arrowprops=dict(arrowstyle="->", color=BLUE), color=BLUE)
 a.set_xlim(0, 24); a.set_ylim(98, 228); a.set_xlabel("Hours after submission"); a.set_ylabel("gCO$_2$/kWh")
 a.set_title("(a) Planning on a forecast", loc="left", fontsize=9)
 a.legend(loc="upper left", frameon=False, fontsize=7.5, ncol=2)
