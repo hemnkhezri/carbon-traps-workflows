@@ -74,36 +74,40 @@ def job(args):
             rows.append(r)
 
         regimes = (("oracle", act[:PLAN_WIN]), ("issued", iss))
-        if PART == "A":
+        if PART in ("A", "RH"):
             for regime, ci in regimes:
                 pp = minute_series(pad(ci, H), H)
                 rng = lambda k: np.random.default_rng([seed, int(t0) // WIN, wi, T, int(f * 10), k])
+                if PART == "RH" and regime != "issued":
+                    continue
                 # reference static CA-LS+SG and slack-reserve variants
-                for rho, nm in ((1.0, "CA-LS+SG"), (0.75, "CA-LS+SG+Res75"), (0.5, "CA-LS+SG+Res50")):
+                for rho, nm in ((1.0, "CA-LS+SG"), (0.75, "CA-LS+SG+Res75"), (0.5, "CA-LS+SG+Res50")) if PART == "A" else ():
                     Dp = int(M + rho * (D - M))
                     s, cl, _ = ca_list_repaired(inst, P, H, Dp, M, pp)
                     s = local_search(inst, P, H, Dp, pp, s, cl, rng(0))
                     s2, used = safeguard(inst, s, base, pp); rec(nm, regime, s2, used)
-                sh = base + int(np.argmin([(pp[base + d + inst.dur] - pp[base + d]).sum() for d in range(0, D - M + 1)]))
-                rec("Shift", regime, sh, bool((sh == base).all()))
+                sh = None if PART == "RH" else base + int(np.argmin([(pp[base + d + inst.dur] - pp[base + d]).sum() for d in range(0, D - M + 1)]))
+                if sh is not None:
+                    rec("Shift", regime, sh, bool((sh == base).all()))
                 if regime == "issued":
-                    for gname in ("diff0.9", "diff0.5", "diff0.8", "diff0.95", "const", "level", "lagcap6"):
+                    for gname in ("diff0.9", "diff0.5", "diff0.8", "diff0.95", "const", "level", "lagcap6") if PART == "A" else ():
                         g = G[gname]
                         s, cl, _ = ca_list_repaired(inst, P, H, D, M, pp, tau=g)
                         s = local_search(inst, P, H, D, pp, s, cl, rng(1), tau=g)
                         s2, used = safeguard(inst, s, base, pp); rec(f"CA-LS+SG+Gate[{gname}]", regime, s2, used)
-                    gs = gated_shift(inst, base, M, D, pp, G["diff0.9"]); rec("Shift+Gate", regime, gs, bool((gs == base).all()))
+                    if PART == "A":
+                        gs = gated_shift(inst, base, M, D, pp, G["diff0.9"]); rec("Shift+Gate", regime, gs, bool((gs == base).all()))
                     # receding horizon (nominal runtimes only)
                     def prefix_at(t):
                         if t == 0:
                             return pp
-                        v = CI.vintage(t0 + t, PLAN_WIN)
+                        v = CI.vintage(t0 + 60 * t, PLAN_WIN)  # t in minutes, t0 in seconds
                         k = t // 30
                         ci_t = np.concatenate([act[:k], v]) if v is not None else ci
                         return minute_series(pad(ci_t, H), H)
 
                     def tau_at(t):
-                        idx = np.searchsorted(CI.captures, t0 + t - WIN, side="right") - 1
+                        idx = np.searchsorted(CI.captures, t0 + 60 * t - WIN, side="right") - 1
                         return DiffGate(G["diff0.9"].q, (t0 - CI.captures[idx]) / 60.0)
                     for gated in (False, True):
                         tt = tau_at if gated else None
