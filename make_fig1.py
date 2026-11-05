@@ -3,7 +3,7 @@ import numpy as np, matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 BLUE, ORANGE, AQUA, NEUTRAL = "#2a78d6", "#eb6834", "#1baf7a", "#8a8984"
-plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8.5})
+plt.rcParams.update({"font.family": "Liberation Serif", "mathtext.fontset": "stix", "font.size": 8.5})
 t = np.linspace(0, 24, 481)
 actual = 195 - 50 * np.exp(-((t - 3.5) / 3.0) ** 2) + 6 * np.sin(t / 3.2)
 forecast = 195 - 70 * np.exp(-((t - 14.5) / 2.6) ** 2) + 6 * np.sin(t / 3.2)

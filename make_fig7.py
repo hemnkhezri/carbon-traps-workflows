@@ -8,7 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 S = json.load(open("figures/fig7_data.json"))
-plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8.5})
+plt.rcParams.update({"font.family": "Liberation Serif", "mathtext.fontset": "stix", "font.size": 8.5})
 BLUE, ORANGE, NEUTRAL = "#2a78d6", "#eb6834", "#8a8984"
 fig, (a, b) = plt.subplots(1, 2, figsize=(7.0, 2.8), gridspec_kw={"width_ratios": [1.1, 1]})
 import pandas as pd
