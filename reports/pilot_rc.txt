@@ -1,0 +1,18 @@
+rows 19200, submissions 20, days 20, nominal misses 0
+scheduler              saving(f>=1.5)  R    trap1(all f)  scen_trap(mean)
+CA-LS+SG                  8.35    0.68    13.6   17.0
+CA-LS+SG+Gate[0.8]        7.50    0.61    11.1   9.6
+CA-LS+SG+Gate[0.95]       6.15    0.50     6.6   5.3
+CA-LS+SG+Gate[0.9]        6.71    0.54     9.2   7.0
+CA-LS+SG[biascorr]        8.26    0.67    12.3   13.4
+CA-LS+SG[oracle]         12.35    1.00     0.0   
+HEFT                      0.00    0.00     0.0   3.0
+RC-CAS[0.05]              6.24    0.50     2.1   
+RC-CAS[0.1]               7.10    0.57     5.8   
+RC-CAS[0.2]               8.10    0.66     8.3   
+Shift                     8.74    0.71    15.2   17.2
+Shift+Gate                6.45    0.52     2.6   3.5
+RC-CAS[0.05] vs gate: d_saving -0.47 [-2.24, 1.05] pp; trap 2.1 vs 9.2  -> fails S2
+RC-CAS[0.1] vs gate: d_saving 0.39 [-1.18, 1.63] pp; trap 5.8 vs 9.2  -> fails S2
+RC-CAS[0.2] vs gate: d_saving 1.39 [-0.17, 2.73] pp; trap 8.3 vs 9.2  -> fails S2
+S1 validity: True | S2 usefulness: False | DECISION: NO-GO
