@@ -1,0 +1,7 @@
+tasks per workflow: 197 - 391 | runs per scheduler: 60
+HEFT               median   0.012 s   95th pct   0.018 s   max   0.022 s
+Shift              median   0.005 s   95th pct   0.007 s   max   0.010 s
+CA-List            median   0.031 s   95th pct   0.199 s   max   0.230 s
+CA-LS              median   0.070 s   95th pct   0.242 s   max   0.282 s
+Gate calibration   median   0.225 s   95th pct   0.808 s   max   0.952 s
+CA-LS+Gate         median   0.115 s   95th pct   0.469 s   max   0.659 s
