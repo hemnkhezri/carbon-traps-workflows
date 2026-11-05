@@ -1,0 +1,66 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{--ink:#0b0b0b;--ink2:#52514e;--line:#c9c8c3;--blue:#2a78d6;--blueL:#eaf2fc;--or:#eb6834;--orL:#fdeee6;--aq:#1baf7a;--aqL:#e6f6ef;--gr:#f3f3f1}
+*{box-sizing:border-box}body{margin:0;background:#fff;font-family:"DejaVu Sans",Arial,sans-serif;color:var(--ink)}
+#fig{width:1000px;padding:10px 20px}
+.ttl{font-size:16px;font-weight:700;margin:4px 0 8px}
+.row{display:grid;grid-template-columns:300px 30px 300px 30px 300px;align-items:stretch}
+.col{border:1.5px solid var(--line);border-radius:9px;overflow:hidden;display:flex;flex-direction:column}
+.hd{font-weight:700;font-size:16px;padding:7px 10px;color:#fff;background:var(--blue);white-space:nowrap}
+.hd.or{background:var(--or)}
+.body{padding:8px 10px;font-size:15px;line-height:1.32;flex:1;display:flex;flex-direction:column;gap:7px}
+.eq{font-family:"DejaVu Serif",serif;font-style:italic}
+.s{color:var(--ink2);font-size:13.5px}
+.arrow{display:flex;align-items:center;justify-content:center}
+table{border-collapse:collapse;font-size:14px;margin:0 auto}
+td,th{border:1px solid #fff;padding:3px 5px;text-align:center;min-width:44px}
+th{font-weight:400;color:var(--ink2);font-size:12.5px;background:#fff}
+.na{background:#f3f3f1;color:#b0afa9}
+.box{border-radius:6px;padding:6px 8px;font-size:14.5px}
+.ok{background:var(--aqL);border:1.5px solid var(--aq)}
+.no{background:var(--orL);border:1.5px solid var(--or)}
+.b2{display:flex;gap:18px;align-items:center;margin-top:12px}
+.b2 img{width:520px}
+.note{font-size:14.5px;line-height:1.4;color:var(--ink)}
+</style></head><body><div id="fig">
+<svg width="0" height="0" style="position:absolute"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8a8984"/></marker></defs></svg>
+<div class="ttl">(a) How the gate is calibrated and applied</div>
+<div class="row">
+ <div class="col"><div class="hd">1&nbsp; Collect difference errors</div><div class="body">
+  <svg width="278" height="104" style="font-family:DejaVu Sans">
+   <line x1="6" y1="70" x2="270" y2="70" stroke="#8a8984" stroke-width="1.5"/>
+   <rect x="20" y="58" width="150" height="24" rx="3" fill="#eaf2fc" stroke="#2a78d6"/>
+   <text x="95" y="74" font-size="12" text-anchor="middle" fill="#0b0b0b">vintages used</text>
+   <line x1="240" y1="40" x2="240" y2="82" stroke="#eb6834" stroke-width="2"/>
+   <text x="240" y="34" font-size="13" text-anchor="middle" fill="#eb6834">t₀</text>
+   <text x="20" y="99" font-size="11.5" fill="#52514e">t₀ − 7 d</text><text x="170" y="99" font-size="11.5" fill="#52514e" text-anchor="end">t₀ − 49 h</text>
+   <path d="M30 52 q40 -40 80 0" fill="none" stroke="#52514e" stroke-width="1.3" marker-end="url(#ah)"/>
+   <text x="70" y="20" font-size="12" text-anchor="middle" fill="#52514e">window pair (u, v)</text>
+  </svg>
+  <div>For every pair of windows already realised before <span class="eq">t</span><sub>0</sub>:</div>
+  <div class="box" style="background:#f3f3f1"><span class="eq">e = (F̄<sub>u</sub> − F̄<sub>v</sub>) − (Ā<sub>u</sub> − Ā<sub>v</sub>)</span><br><span class="s">forecast gain minus realised gain</span></div>
+ </div></div>
+ <div class="arrow"><svg width="26" height="20"><path d="M2 10h16" stroke="#8a8984" stroke-width="2.4" marker-end="url(#ah)"/></svg></div>
+ <div class="col"><div class="hd">2&nbsp; Quantile table <span class="eq" style="font-weight:400">q</span></div><div class="body">
+  <div>0.9-quantile of <span class="eq">e</span> per bin (gCO₂/kWh)</div>
+  <table>
+   <tr><th>lag \ horizon</th><th>0–6 h</th><th>6–12</th><th>12–24</th><th>24–48</th></tr>
+   <tr><th>0–3 h</th><td style="background:#d7e6f8">16</td><td style="background:#d3e3f7">18</td><td style="background:#d7e6f8">16</td><td style="background:#d7e6f8">16</td></tr>
+   <tr><th>3–6 h</th><td style="background:#a9c9ef">30</td><td style="background:#9fc3ed">34</td><td style="background:#a4c6ee">32</td><td style="background:#a4c6ee">32</td></tr>
+   <tr><th>6–12 h</th><td class="na">–</td><td style="background:#7fb0e6">43</td><td style="background:#7fb0e6">43</td><td style="background:#7cade5">44</td></tr>
+   <tr><th>12–24 h</th><td class="na">–</td><td class="na">–</td><td style="background:#79abe4">45</td><td style="background:#76a9e3">46</td></tr>
+   <tr><th>24–48 h</th><td class="na">–</td><td class="na">–</td><td class="na">–</td><td style="background:#70a5e2">48</td></tr>
+  </table>
+  <div class="s">Short deferrals need small gains, because errors in nearby windows cancel. Development data (GB, Aug–Oct 2023).</div>
+ </div></div>
+ <div class="arrow"><svg width="26" height="20"><path d="M2 10h16" stroke="#8a8984" stroke-width="2.4" marker-end="url(#ah)"/></svg></div>
+ <div class="col"><div class="hd or">3&nbsp; Decide each deferral <span class="eq" style="font-weight:400">a → b</span></div><div class="body">
+  <div>Defer task <span class="eq">i</span> from its earliest start <span class="eq">a</span> to <span class="eq">b</span> only if</div>
+  <div class="box" style="background:#f3f3f1;text-align:center"><span class="eq">F̄<sub>a</sub> − F̄<sub>b</sub> &gt; q</span>[lag(<span class="eq">a,b</span>), horizon(<span class="eq">b</span>)]</div>
+  <div class="box ok"><b>Allowed</b>: 1-h deferral, forecast gain 25 &gt; 16</div>
+  <div class="box no"><b>Blocked</b>: 8-h deferral, forecast gain 30 &lt; 43 → start at <span class="eq">a</span></div>
+  <div class="s">Among allowed starts, the largest margin wins; local-search moves use the same rule.</div>
+ </div></div>
+</div>
+<div class="b2"><div><div class="ttl">(b) Required gain by deferral lag</div><img src="fig2_gate_intuition.png"></div>
+ <div class="note">A rule that compares interval bounds on <i>levels</i> must demand the sum of the errors at both windows, 77 gCO₂/kWh at every lag. The difference gate demands only the error of the <i>difference</i>, which is much smaller for short deferrals. It therefore keeps the safe short moves and blocks the risky long ones.</div></div>
+</div></body></html>
