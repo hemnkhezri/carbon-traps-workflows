@@ -10,3 +10,6 @@ model that resamples run-to-run log-ratios of task runtimes measured in repeated
 workflows (WfInstances, makeflow and pegasus traces with identical task sets; per-run log-ratio / sqrt(2); tasks >= 5 s;
 results/emp_runtime_logratio.npy; per-workflow sigma 0.04-0.78, pooled SD 0.47, MAD-based 0.34).
 Report miss rates of HEFT, CA-LS+SG, Gate, Res75 and Shift by noise model.
+
+Deviation (before any result): the first run stopped because heavy-tailed runtime samples overran the simulated
+execution horizon; the executor horizon was enlarged to four times the planning window (only finishing times are used).

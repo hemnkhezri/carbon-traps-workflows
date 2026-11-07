@@ -29,7 +29,7 @@ def job(a):
         for nm, sg in NOISE:
             eta = z.normal(0, sg, len(inst.dur)) if sg else z.choice(EMP, len(inst.dur))
             noises[nm] = np.maximum(1, np.round(inst.dur * np.exp(eta))).astype(int)
-        hm = {nm: int(execute(inst, base, rd, P, Hx)[1].max()) > D for nm, rd in noises.items()}
+        hm = {nm: int(execute(inst, base, rd, P, 4 * Hx)[1].max()) > D for nm, rd in noises.items()}
         for regime, ci in (("oracle", act[:PLAN_WIN]), ("issued", iss)):
             pp = minute_series(pad(ci, H), H)
             def calsg(Dp, tau=None, k=0):
@@ -43,7 +43,7 @@ def job(a):
                 r = dict(seed=seed, P=P, wf=SPECS[wi][0], T=T, f=f, t0=int(t0), sched=nm, regime=regime, saving=1 - c / cb, trap1=c > 1.01 * cb,
                          miss=int(max(s + inst.dur)) > D, cp_ratio=float(M))
                 for nn, rd in noises.items():
-                    r[f"miss_{nn}"] = int(execute(inst, s, rd, P, Hx)[1].max()) > D; r[f"heft_miss_{nn}"] = hm[nn]
+                    r[f"miss_{nn}"] = int(execute(inst, s, rd, P, 4 * Hx)[1].max()) > D; r[f"heft_miss_{nn}"] = hm[nn]
                 rows.append(r)
     return rows
 
