@@ -14,6 +14,7 @@ const rev65 = [
   H2("6.5 Deadlines under runtime variability"),
   P("«REV65»"),
   P("«REV65B»"),
+  P("«REV65C»"),
   ...figure("fig6_deadline_tradeoff.png", 600, 220,
     "**Fig. 7.** Carbon saving and deadline risk with runtime noise (robustness study, GB issued forecasts, seeds 10–11). (a) Mean saving against the share of runs that miss the deadline, all f pooled; filled markers: static executor, hollow markers: reactive executor; the reserve variants plan against D′ = M + ρ(D − M) with ρ = 0.75 and 0.5. (b) Miss rate by deadline factor. Whiskers: 95% cluster-bootstrap intervals over calendar days."),
 ];
