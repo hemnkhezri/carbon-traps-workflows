@@ -65,6 +65,12 @@ for unit in ("t0", "day", "week"):
     rr = stat(sel(df, "CA-LS+SG+Gate", "issued", F), "saving", sel(df, "CA-LS+SG", "issued", F), "saving", "ratio")
     pv["H4"] = max(np.mean(g[3] >= 0), np.mean(rr[3] < 0.5))
     print(f"H4/E3 trap diff = {100*g[0]:.2f} [{100*g[1]:.2f}, {100*g[2]:.2f}] pp; retention {rr[0]:.2f} [{rr[1]:.2f}, {rr[2]:.2f}]  p = {pv['H4']:.4f}")
+    if study == "extension":  # E4 (added after review): misses vs HEFT under runtime noise, and the gate's effect
+        e4 = [stat(sel(df, "CA-LS+SG", "issued", [f]), "miss_rt", sel(df, "CA-LS+SG", "issued", [f]), "heft_miss_rt", "diff") for f in F]
+        e4g = stat(sel(df, "CA-LS+SG+Gate", "issued", F), "miss_rt", sel(df, "CA-LS+SG", "issued", F), "miss_rt", "diff")
+        pv["E4"] = max(max(np.mean(t[3] <= 0.10) for t in e4), np.mean(e4g[3] >= 0))
+        print("E4 miss gap: " + "; ".join(f"{f}: {100*t[0]:.1f} [{100*t[1]:.1f}, {100*t[2]:.1f}]" for f, t in zip(F, e4))
+              + f"; gated - ungated {100*e4g[0]:.1f} [{100*e4g[1]:.1f}, {100*e4g[2]:.1f}]  p = {pv['E4']:.4f}")
     if study == "confirm":
         for s in ("CA-List+SG", "CaWoSched+SG"):
             r5 = stat(sel(df, s, "issued", FS), "saving", sel(df, s, "oracle", FS), "saving", "ratio")
