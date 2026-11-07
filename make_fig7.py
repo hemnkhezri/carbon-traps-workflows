@@ -16,7 +16,7 @@ from scipy.stats import spearmanr
 M = pd.read_csv("results/skill_by_month.csv")
 mk = {"CISO": "o", "DE": "s", "GB": "D", "PJM": "^", "ERCO": "v"}
 for reg, g in M.groupby("region"):
-    a.scatter(g.ratio, g.R, marker=mk[reg], s=26, color=ORANGE if reg == "GB" else BLUE, edgecolor="white", lw=0.6, label=reg, zorder=3)
+    a.scatter(g.ratio, g.R, marker=mk[reg], s=30, color=ORANGE if reg == "GB" else BLUE, alpha=0.7, edgecolor="#1f3f66" if reg != "GB" else "#8a3a12", lw=0.7, label=reg, zorder=3)
 rho = spearmanr(M.ratio, M.R)[0]
 a.text(0.97, 0.97, f"Spearman $r_s$ = {rho:.2f} ({len(M)} grid-months)", transform=a.transAxes, ha="right", va="top", fontsize=7.5)
 a.axhline(0.75, color=NEUTRAL, ls="--", lw=1)

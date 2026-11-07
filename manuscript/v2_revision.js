@@ -7,7 +7,7 @@ const rev64 = [
   P("«REV64B»"),
   P("«REV64C»"),
   ...figure("fig_frontier.png", 600, 245,
-    "**Fig. 6.** Carbon saving against the share of runs that are carbon traps. (a) Strategies on GB issued forecasts (robustness study, seeds 10–11, all f): the difference gate for α between 0.5 and 0.95, simpler gates, planning on an upper forecast quantile, re-planning, and whole-workflow shifting with and without the gate. Points towards the upper left are better. (b) The difference gate against two risk-controlled planners for α of 0.05, 0.10 and 0.20 (development data, pilot 2, 40 submissions; saving for f ≥ 1.5; exploratory). Intervals are given in Supplementary Table S4 and in the text."),
+    "**Fig. 6.** Carbon saving against the share of runs that are carbon traps. (a) Strategies on GB issued forecasts (robustness study, seeds 10–11, all f): the difference gate for α between 0.5 and 0.95, simpler gates, planning on an upper forecast quantile, re-planning, and whole-workflow shifting with and without the gate. Points towards the upper left are better. (b) The difference gate at α = 0.8, 0.9 and 0.95 against two risk-controlled planners at target trap risks of 0.05, 0.10 and 0.20 (a risk level, not the gate's quantile level α) (development data, pilot 2, 40 submissions; saving for f ≥ 1.5; exploratory). Intervals are given in Supplementary Table S4 and in the text."),
 ];
 
 const rev65 = [

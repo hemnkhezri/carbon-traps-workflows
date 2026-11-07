@@ -11,7 +11,7 @@ const FONT = "Times New Roman";
 function runs(text, size) {
   const z = size ? { size } : {};
   const out = [];
-  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\]|_\{[^}]+\})/g;
+  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\]|_\{[^}]+\}|\^\{[^}]+\})/g;
   let last = 0, m;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) out.push(new TextRun({ ...z, text: text.slice(last, m.index) }));
@@ -19,6 +19,7 @@ function runs(text, size) {
     if (t.startsWith("**")) out.push(new TextRun({ ...z, text: t.slice(2, -2), bold: true }));
     else if (t.startsWith("~~")) out.push(new TextRun({ ...z, text: t.slice(2, -2), italics: true }));
     else if (t.startsWith("_{")) out.push(new TextRun({ ...z, text: t.slice(2, -1), subScript: true }));
+    else if (t.startsWith("^{")) out.push(new TextRun({ ...z, text: t.slice(2, -1), superScript: true }));
     else out.push(new TextRun({ ...z, text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
     last = m.index + t.length;
   }

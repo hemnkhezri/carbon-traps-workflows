@@ -84,7 +84,7 @@ def fmt(e):
     note = clean(e.get("annote", ""))
     m = re.search(r"arXiv:\s*(\S+)", note)
     if m:
-        return f"{lead}{ti}, arXiv preprint arXiv:{re.sub(r'v\d+$', '', m.group(1))}, {y}."
+        aid = re.sub(r'v\d+$', '', m.group(1)); return f"{lead}{ti}, arXiv preprint arXiv:{aid}, {y}. https://arxiv.org/abs/{aid}."
     if "Official Journal" in note:
         return f"{lead}{ti}, Official Journal of the European Union, {y}." + doi
     return f"{lead}{ti}, {y}." + doi
