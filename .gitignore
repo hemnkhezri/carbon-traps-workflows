@@ -1,3 +1,4 @@
 __pycache__/
 results/*.csv
 external/cawo_dump
+external/cwm_dump

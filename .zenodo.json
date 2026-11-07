@@ -1,0 +1,11 @@
+{
+  "title": "Carbon traps in carbon-aware workflow scheduling: code, sealed plans and results",
+  "upload_type": "software",
+  "description": "Code, sealed analysis plans, deviation logs and raw results for: H. Khezri, M. Trik, Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts.",
+  "creators": [
+    {"name": "Khezri, Hemn", "affiliation": "Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University", "orcid": "0000-0002-4938-2658"},
+    {"name": "Trik, Mohammad", "affiliation": "Department of Computer Engineering, Bou.C., Islamic Azad University"}
+  ],
+  "license": "MIT",
+  "keywords": ["carbon-aware computing", "workflow scheduling", "carbon-intensity forecasts", "carbon traps", "pre-registration"]
+}

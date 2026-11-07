@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite it as below."
+title: "Carbon traps in carbon-aware workflow scheduling: code, plans and results"
+authors:
+  - family-names: Khezri
+    given-names: Hemn
+    orcid: "https://orcid.org/0000-0002-4938-2658"
+    affiliation: "Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University"
+  - family-names: Trik
+    given-names: Mohammad
+    affiliation: "Department of Computer Engineering, Bou.C., Islamic Azad University"
+license: MIT
+version: 1.0.0
+date-released: 2026-11-07
+repository-code: "https://github.com/hemnkhezri/carbon-traps-workflows"
