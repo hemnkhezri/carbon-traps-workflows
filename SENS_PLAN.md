@@ -13,3 +13,5 @@ Report miss rates of HEFT, CA-LS+SG, Gate, Res75 and Shift by noise model.
 
 Deviation (before any result): the first run stopped because heavy-tailed runtime samples overran the simulated
 execution horizon; the executor horizon was enlarged to four times the planning window (only finishing times are used).
+Second fix (before any P = 32/64 result was read): the executor horizon is set to the latest planned start plus the sum of
+realised durations, which always suffices; P = 8 results are unaffected (they completed with the earlier horizon).
