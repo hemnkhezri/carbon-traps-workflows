@@ -10,13 +10,14 @@ const FONT = "Times New Roman";
 // Inline markup: **bold**, _italic_, cite markers -> yellow placeholder
 function runs(text) {
   const out = [];
-  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\])/g;
+  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\]|_\{[^}]+\})/g;
   let last = 0, m;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) out.push(new TextRun({ text: text.slice(last, m.index) }));
     const t = m[0];
     if (t.startsWith("**")) out.push(new TextRun({ text: t.slice(2, -2), bold: true }));
     else if (t.startsWith("~~")) out.push(new TextRun({ text: t.slice(2, -2), italics: true }));
+    else if (t.startsWith("_{")) out.push(new TextRun({ text: t.slice(2, -1), subScript: true }));
     else out.push(new TextRun({ text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
     last = m.index + t.length;
   }

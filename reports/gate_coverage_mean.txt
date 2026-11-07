@@ -1,0 +1,6 @@
+calibration errors per bin: min 1008  median 17236  bins 2058
+duration  0.5 h: coverage 0.898  (pairs 1285074; per-submission 10th pct 0.820)
+duration  1.0 h: coverage 0.899  (pairs 1257732; per-submission 10th pct 0.817)
+duration  2.0 h: coverage 0.905  (pairs 1203930; per-submission 10th pct 0.820)
+duration  4.0 h: coverage 0.922  (pairs 1099854; per-submission 10th pct 0.831)
+duration  8.0 h: coverage 0.953  (pairs 905814; per-submission 10th pct 0.871)
