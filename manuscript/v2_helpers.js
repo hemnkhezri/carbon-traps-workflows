@@ -8,20 +8,21 @@ const FIG = "/home/claude/carbon-wf-forecast/figures/";
 const FONT = "Times New Roman";
 
 // Inline markup: **bold**, _italic_, cite markers -> yellow placeholder
-function runs(text) {
+function runs(text, size) {
+  const z = size ? { size } : {};
   const out = [];
   const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\]|_\{[^}]+\})/g;
   let last = 0, m;
   while ((m = re.exec(text)) !== null) {
-    if (m.index > last) out.push(new TextRun({ text: text.slice(last, m.index) }));
+    if (m.index > last) out.push(new TextRun({ ...z, text: text.slice(last, m.index) }));
     const t = m[0];
-    if (t.startsWith("**")) out.push(new TextRun({ text: t.slice(2, -2), bold: true }));
-    else if (t.startsWith("~~")) out.push(new TextRun({ text: t.slice(2, -2), italics: true }));
-    else if (t.startsWith("_{")) out.push(new TextRun({ text: t.slice(2, -1), subScript: true }));
-    else out.push(new TextRun({ text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
+    if (t.startsWith("**")) out.push(new TextRun({ ...z, text: t.slice(2, -2), bold: true }));
+    else if (t.startsWith("~~")) out.push(new TextRun({ ...z, text: t.slice(2, -2), italics: true }));
+    else if (t.startsWith("_{")) out.push(new TextRun({ ...z, text: t.slice(2, -1), subScript: true }));
+    else out.push(new TextRun({ ...z, text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
     last = m.index + t.length;
   }
-  if (last < text.length) out.push(new TextRun({ text: text.slice(last) }));
+  if (last < text.length) out.push(new TextRun({ ...z, text: text.slice(last) }));
   return out;
 }
 const P = (t, opts = {}) => new Paragraph({ children: runs(t), alignment: AlignmentType.JUSTIFIED, ...opts });
@@ -57,6 +58,7 @@ function table(rows, W) {
       children: r.map((c, ci) => cell(c, ci, { head: ri === 0, top: ri <= 1, bottom: ri === 0 || ri === rows.length - 1 })) })),
   });
 }
+const tnote = (t) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, 18) });
 const caption = (t) => new Paragraph({ keepNext: true, spacing: { before: 200, after: 80 }, children: runs(t) });
 
 
