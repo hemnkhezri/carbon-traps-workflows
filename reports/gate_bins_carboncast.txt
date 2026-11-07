@@ -1,0 +1,7 @@
+        subs  vint_min  vint_max  min_n   med_n  fill_max  age_min  age_max  max_hor  share_hor_gt48
+region                                                                                              
+CISO      59         4         5    168  2160.0         6      0.5     23.5    59.95            0.66
+DE        59         4         5    168  2160.0         6      0.5     23.5    59.95            0.66
+ERCO      59         4         5    168  2160.0         6      0.5     23.5    59.95            0.66
+PJM       59         4         5    168  2160.0         6      0.5     23.5    59.95            0.66
+D max (h): 36.45
