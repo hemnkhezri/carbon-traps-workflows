@@ -7,7 +7,7 @@ const rev64 = [
   P("«REV64B»"),
   P("«REV64C»"),
   ...figure("fig_frontier.png", 600, 245,
-    "**Fig. 6.** Carbon saving against the share of runs that are carbon traps. (a) Strategies on GB issued forecasts (robustness study, seeds 10–11, all f): the difference gate for α between 0.5 and 0.95, simpler gates, planning on an upper forecast quantile, re-planning, and whole-workflow shifting with and without the gate. Points towards the upper left are better. (b) The difference gate at α = 0.8, 0.9 and 0.95 against two risk-controlled planners at target trap risks of 0.05, 0.10 and 0.20 (a risk level, not the gate's quantile level α) (development data, pilot 2, 40 submissions; saving for f ≥ 1.5; exploratory). Intervals are given in Supplementary Table S4 and in the text."),
+    "**Fig. 6.** Carbon saving against the share of runs that are carbon traps; points towards the upper left are better. (a) Strategies on GB issued forecasts (robustness study, seeds 10–11, all f): the difference gate for α from 0.5 to 0.95, simpler gates, an upper-quantile planner, re-planning and whole-workflow shifting. (b) The gate at α = 0.8–0.95 against two risk-controlled planners at target trap risks of 0.05–0.20 (development data, pilot 2, f ≥ 1.5; exploratory). Intervals: Supplementary Table S4."),
 ];
 
 const rev65 = [
@@ -16,5 +16,5 @@ const rev65 = [
   P("«REV65B»"),
   P("«REV65C»"),
   ...figure("fig6_deadline_tradeoff.png", 600, 220,
-    "**Fig. 7.** Carbon saving and deadline risk with runtime noise (robustness study, GB issued forecasts, seeds 10–11). (a) Mean saving against the share of runs that miss the deadline, all f pooled; filled markers: static executor, hollow markers: reactive executor; the reserve variants plan against D′ = M + ρ(D − M) with ρ = 0.75 and 0.5. (b) Miss rate by deadline factor. Whiskers: 95% cluster-bootstrap intervals over calendar days."),
+    "**Fig. 7.** Saving and deadline risk with runtime noise (robustness study, GB issued forecasts, seeds 10–11). (a) Mean saving against the share of missed deadlines, all f; filled: static executor, hollow: reactive executor; the reserves plan against D′ = M + ρ(D − M) with ρ = 0.75 and 0.5. (b) Miss rate by deadline factor. Whiskers: 95% cluster-bootstrap intervals over calendar days."),
 ];
