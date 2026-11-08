@@ -68,7 +68,7 @@ function runs(text, size) {
   return out;
 }
 const P = (t, opts = {}) => new Paragraph({ children: runs(t), alignment: AlignmentType.JUSTIFIED, ...opts });
-const secAnchor = (t) => { let m = t.match(/^(\d+)\.(\d+) /); if (m) return `sec_${m[1]}_${m[2]}`; m = t.match(/^(\d+)\. /); if (m) return `sec_${m[1]}`; m = t.match(/^Appendix ([A-Z])\./); return m ? `app_${m[1]}` : null; };
+const secAnchor = (t) => { let m = t.match(/^(\d+)\.(\d+)\.? /); if (m) return `sec_${m[1]}_${m[2]}`; m = t.match(/^(\d+)\. /); if (m) return `sec_${m[1]}`; m = t.match(/^Appendix ([A-Z])\./); return m ? `app_${m[1]}` : null; };
 const headRun = (t) => { const a = LINKS ? secAnchor(t) : null; const r = new TextRun(t); return a ? [new Bookmark({ id: a, children: [r] })] : [r]; };
 const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, keepNext: true, children: headRun(t) });
 const H2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, keepNext: true, children: headRun((typeof TWO !== "undefined" && TWO) ? t.replace(/^(\d+\.\d+) /, "$1. ") : t) });

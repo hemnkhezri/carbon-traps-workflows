@@ -60,7 +60,7 @@ LTWA = {"ACM Computing Surveys": "ACM Comput. Surv.", "ACM SIGENERGY Energy Info
         "IEEE Transactions on Power Systems": "IEEE Trans. Power Syst.", "IEEE Transactions on Sustainable Computing": "IEEE Trans. Sustain. Comput.",
         "Journal of Parallel and Distributed Computing": "J. Parallel Distrib. Comput.",
         "Proceedings of the ACM on Measurement and Analysis of Computing Systems": "Proc. ACM Meas. Anal. Comput. Syst.",
-        "Proceedings of the National Academy of Sciences": "Proc. Natl. Acad. Sci. U.S.A.", "Science": "Science",
+        "Proceedings of the National Academy of Sciences": "Proc. Natl. Acad. Sci. U.S.A.", "Science": "Science", "Scandinavian Journal of Statistics": "Scand. J. Stat.",
         "The Review of Economics and Statistics": "Rev. Econ. Stat.", "iScience": "iScience"}
 
 
