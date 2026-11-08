@@ -354,7 +354,7 @@ const appendices = [
 
 const declarations = [
   H1("Declarations"),
-  P("**CRediT authorship contribution statement.** **Hemn Khezri:** Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing – original draft, Visualization. **Mohammad Trik:** Conceptualization, Validation, Supervision, Writing – review & editing."),
+  P("**CRediT authorship contribution statement.** **Hemn Khezri:** Conceptualization, Methodology, Software, Investigation, Formal analysis, Data curation, Visualization, Writing – original draft. **Mohammad Trik:** Conceptualization, Validation, Supervision, Writing – review & editing."),
   P("**Funding.** This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors."),
   P("**Declaration of competing interest.** The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper."),
   P("**Data availability.** Code, sealed plans, deviation logs and raw results are available at [repository URL and Zenodo DOI]. The GB forecast vintages come from the public archive nmpowell/carbon-intensity-forecast-tracking (commit 578de5b), and the CarbonCast forecasts from the public CarbonCast repository."),
