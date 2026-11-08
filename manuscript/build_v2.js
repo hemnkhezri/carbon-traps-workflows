@@ -33,7 +33,7 @@ const STY = {
   };
 const PAGE = { size: { width: 11906, height: 16838 }, margin: TWO ? { top: 1000, bottom: 1000, left: 900, right: 900 } : { top: 1440, bottom: 1440, left: 1440, right: 1440 } };
 const LN = TWO ? undefined : { countBy: 1, restart: require("docx").LineNumberRestartFormat.CONTINUOUS, distance: 300 };
-const FOOT = { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, suppressLineNumbers: true, children: [new TextRun({ children: [PageNumber.CURRENT] })] })] }) };
+const FOOT = { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT] })] })] }) };
 let sections;
 if (!TWO) {
   sections = [{ properties: { page: PAGE, lineNumbers: LN }, footers: FOOT, children: all }];
