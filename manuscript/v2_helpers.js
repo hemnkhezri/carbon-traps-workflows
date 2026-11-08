@@ -68,7 +68,7 @@ function smallTable(rows, W, hl = -1) {
   const cell = (text, i, { head, top, bottom, shade, last }) => new TableCell({
     width: { size: W[i], type: WidthType.DXA },
     margins: { top: 40, bottom: 40, left: 60, right: 60 },
-    shading: shade ? { type: ShadingType.CLEAR, fill: "EEF4FB" } : undefined,
+    shading: undefined,  // Elsevier: no shading in table cells
     borders: { top: top ? border : none, bottom: bottom ? border : none, left: none, right: none },
     children: [new Paragraph({ style: "TableText", keepNext: !last, children: runs(head ? `**${text}**` : text) })],
   });

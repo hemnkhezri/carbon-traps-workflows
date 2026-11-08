@@ -50,13 +50,32 @@ def pages(p):
     return clean(p).replace("--", "–")
 
 
+LTWA = {"ACM Computing Surveys": "ACM Comput. Surv.", "ACM SIGENERGY Energy Informatics Review": "ACM SIGENERGY Energy Inform. Rev.",
+        "ACM SIGMETRICS Performance Evaluation Review": "ACM SIGMETRICS Perform. Eval. Rev.", "Ad Hoc Networks": "Ad Hoc Netw.",
+        "Cluster Computing": "Clust. Comput.", "Concurrency and Computation: Practice and Experience": "Concurr. Comput. Pract. Exp.",
+        "Future Generation Computer Systems": "Future Gener. Comput. Syst.", "IEEE Internet of Things Journal": "IEEE Internet Things J.",
+        "IEEE Transactions on Cloud Computing": "IEEE Trans. Cloud Comput.", "IEEE Transactions on Computers": "IEEE Trans. Comput.",
+        "IEEE Transactions on Network and Service Management": "IEEE Trans. Netw. Serv. Manag.",
+        "IEEE Transactions on Parallel and Distributed Systems": "IEEE Trans. Parallel Distrib. Syst.",
+        "IEEE Transactions on Power Systems": "IEEE Trans. Power Syst.", "IEEE Transactions on Sustainable Computing": "IEEE Trans. Sustain. Comput.",
+        "Journal of Parallel and Distributed Computing": "J. Parallel Distrib. Comput.",
+        "Proceedings of the ACM on Measurement and Analysis of Computing Systems": "Proc. ACM Meas. Anal. Comput. Syst.",
+        "Proceedings of the National Academy of Sciences": "Proc. Natl. Acad. Sci. U.S.A.", "Science": "Science",
+        "The Review of Economics and Statistics": "Rev. Econ. Stat.", "iScience": "iScience"}
+
+
 def fmt(e):
     t, au, ti, y = e["_type"], authors(e), clean(e.get("title", "")), e.get("year", "")
     doi = f" https://doi.org/{e['doi']}." if "doi" in e else (f" {e['url']}." if "url" in e else "")
     lead = f"{au}, " if au else ""
+    if "swtype" in e:
+        note = f", {clean(e['note'])}" if "note" in e else ""
+        tag = "[dataset] " if e["swtype"] == "dataset" else ""
+        typ = f" [{e['swtype']}]" if e["swtype"] != "dataset" else ""
+        return f"{tag}{lead}{ti}{typ}, {clean(e['howpublished'])}{note}, {y}{'' if y.endswith('.') else '.'} {e['url']}."
     if t == "article":
         vol = clean(e.get("volume", "")); num = clean(e.get("number", ""))
-        s = f"{lead}{ti}, {clean(e['journal'])} {vol}{f' ({num})' if num else ''} ({y})"
+        j = clean(e['journal']); s = f"{lead}{ti}, {LTWA.get(j, j)} {vol}{f' ({num})' if num else ''} ({y})"
         if "pages" in e:
             s += f" {pages(e['pages'])}"
         return s + "." + doi
@@ -84,7 +103,7 @@ def fmt(e):
     note = clean(e.get("annote", ""))
     m = re.search(r"arXiv:\s*(\S+)", note)
     if m:
-        aid = re.sub(r'v\d+$', '', m.group(1)); return f"{lead}{ti}, arXiv preprint arXiv:{aid}, {y}. https://arxiv.org/abs/{aid}."
+        aid = re.sub(r'v\d+$', '', m.group(1)); return f"{lead}{ti}, arXiv preprint arXiv:{aid}, {y}. https://doi.org/10.48550/arXiv.{aid}."
     if "Official Journal" in note:
         return f"{lead}{ti}, Official Journal of the European Union, {y}." + doi
     return f"{lead}{ti}, {y}." + doi
