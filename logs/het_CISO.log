@@ -1,0 +1,10 @@
+400 jobs; setup 4s
+  0/400 done, 6s
+  50/400 done, 154s
+  100/400 done, 349s
+  150/400 done, 495s
+  200/400 done, 627s
+  250/400 done, 795s
+  300/400 done, 945s
+  350/400 done, 1078s
+wrote results/het/CISO_30.csv.part: 19200 rows in 1233s

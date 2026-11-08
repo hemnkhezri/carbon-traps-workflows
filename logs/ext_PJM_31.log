@@ -1,0 +1,7 @@
+seed 31: 20 submissions
+400 jobs; setup 2s
+  0/400 done, 13s
+  100/400 done, 478s
+  200/400 done, 965s
+  300/400 done, 1372s
+wrote results/ext/PJM_31.csv.part: 24000 rows in 1847s

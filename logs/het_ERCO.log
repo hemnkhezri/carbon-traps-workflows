@@ -1,0 +1,10 @@
+400 jobs; setup 3s
+  0/400 done, 7s
+  50/400 done, 155s
+  100/400 done, 349s
+  150/400 done, 519s
+  200/400 done, 656s
+  250/400 done, 848s
+  300/400 done, 1010s
+  350/400 done, 1145s
+wrote results/het/ERCO_30.csv.part: 19200 rows in 1311s

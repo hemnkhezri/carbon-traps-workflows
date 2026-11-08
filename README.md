@@ -1,5 +1,7 @@
 # Carbon traps in carbon-aware workflow scheduling
 
+[![DOI](https://zenodo.org/badge/DOI/ZENODO_DOI.svg)](https://doi.org/ZENODO_DOI)
+
 Code, sealed analysis plans, deviation logs and raw results for the article
 
 > H. Khezri, M. Trik, *Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts* (submitted to Future Generation Computer Systems).
@@ -16,7 +18,8 @@ schedulers, whole-workflow shifting and the official code of CaWoSched and CWM.
 | `*_DEVIATIONS.md`, `*_RESULTS.md` | logged deviations and result summaries per study |
 | `run_*.py` | runners (pilot, confirmatory, extension, heterogeneous platform, robustness, RC-CAS pilots, sensitivity) |
 | `analyse_*.py`, `gate_coverage.py`, `skill_by_month.py`, `dag_stats.py`, `measure_overhead.py` | analyses |
-| `results/` | raw per-run results (CSV) |
+| `results/` | raw per-run results (CSV): `confirm.csv` main study, `extension.csv` four-grid extension, `hetero.csv` heterogeneous platform, `rev/` robustness study, `sens_P*.csv` cluster-size sensitivity, `pilot*.csv` pilots |
+| `logs/` | run logs |
 | `reports/` | analysis outputs quoted in the article |
 | `figures/`, `make_fig*.py`, `figsrc/` | figures and the scripts that draw them |
 | `manuscript/` | sources of the manuscript (docx build) |
@@ -37,6 +40,10 @@ python analyse_robust_stats.py confirm                      # clustering by day/
 python make_figures.py ARCHIVE                              # figures
 ```
 Other studies follow the same pattern (`run_extension.py`, `run_hetero.py`, `run_revision.py`, `run_sens.py`).
+
+## Pre-registration and commit history
+Each analysis plan was committed before the results it governs were computed. The commit hashes in Table 4 of the
+article (for example `55fff17`, the sealed confirmatory plan) can be checked with `git log` or `git show <hash>`.
 
 ## Licence
 MIT (code). Results and documentation: CC BY 4.0.

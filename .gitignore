@@ -2,3 +2,7 @@ __pycache__/
 results/*.csv
 external/cawo_dump
 external/cwm_dump
+# per-grid run files; merged into results/extension.csv and results/hetero.csv
+results/ext/
+results/het/*_3?.csv
+*.part.partial

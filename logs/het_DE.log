@@ -1,0 +1,10 @@
+400 jobs; setup 3s
+  0/400 done, 8s
+  50/400 done, 168s
+  100/400 done, 377s
+  150/400 done, 554s
+  200/400 done, 714s
+  250/400 done, 924s
+  300/400 done, 1093s
+  350/400 done, 1234s
+wrote results/het/DE_30.csv.part: 19200 rows in 1407s

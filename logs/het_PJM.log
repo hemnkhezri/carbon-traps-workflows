@@ -1,0 +1,10 @@
+400 jobs; setup 3s
+  0/400 done, 7s
+  50/400 done, 148s
+  100/400 done, 335s
+  150/400 done, 487s
+  200/400 done, 620s
+  250/400 done, 804s
+  300/400 done, 954s
+  350/400 done, 1087s
+wrote results/het/PJM_30.csv.part: 19200 rows in 1237s

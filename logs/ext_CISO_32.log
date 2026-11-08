@@ -1,0 +1,7 @@
+seed 32: 20 submissions
+400 jobs; setup 2s
+  0/400 done, 11s
+  100/400 done, 423s
+  200/400 done, 921s
+  300/400 done, 1329s
+wrote results/ext/CISO_32.csv.part: 24000 rows in 1782s

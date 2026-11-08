@@ -1,0 +1,7 @@
+seed 31: 20 submissions
+400 jobs; setup 2s
+  0/400 done, 14s
+  100/400 done, 503s
+  200/400 done, 997s
+  300/400 done, 1425s
+wrote results/ext/ERCO_31.csv.part: 24000 rows in 1909s
