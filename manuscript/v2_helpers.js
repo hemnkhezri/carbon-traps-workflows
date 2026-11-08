@@ -96,6 +96,7 @@ function wide2(x, cond) { return cond ? wide(x) : x; }
 const border = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
 const none = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
 function table(rows, W) {
+  if (typeof TWO !== "undefined" && TWO) { const s = W.reduce((a, b) => a + b, 0); W = W.map(w => Math.round(w * 10106 / s)); W[W.length - 1] += 10106 - W.reduce((a, b) => a + b, 0); }
   const cell = (text, i, { head, top, bottom }) => new TableCell({
     width: { size: W[i], type: WidthType.DXA },
     margins: { top: 50, bottom: 50, left: 80, right: 80 },
@@ -108,12 +109,13 @@ function table(rows, W) {
       children: r.map((c, ci) => cell(c, ci, { head: ri === 0, top: ri <= 1, bottom: ri === 0 || ri === rows.length - 1 })) })),
   }));
 }
-const tnote = (t) => { const p = new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, (typeof TWO !== "undefined" && TWO) ? 16 : 18) }); NOTE.add(p); return p; };
+const tnote = (t) => { const p = new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, (typeof TWO !== "undefined" && TWO) ? 17 : 18) }); NOTE.add(p); return p; };
 const caption = (t) => { const p = new Paragraph({ keepNext: true, alignment: AlignmentType.JUSTIFIED, style: "Caption", spacing: { before: 200, after: 80, line: 276 }, children: runs(t) }); CAP.add(p); return p; };
 
 
 // Table 1 (small font via TableText style)
 function smallTable(rows, W, hl = -1) {
+  if (typeof TWO !== "undefined" && TWO) { const s = W.reduce((a, b) => a + b, 0); W = W.map(w => Math.round(w * 10106 / s)); W[W.length - 1] += 10106 - W.reduce((a, b) => a + b, 0); }
   const cell = (text, i, { head, top, bottom, shade, last }) => new TableCell({
     width: { size: W[i], type: WidthType.DXA },
     margins: { top: 40, bottom: 40, left: 60, right: 60 },

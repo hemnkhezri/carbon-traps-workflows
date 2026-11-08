@@ -28,7 +28,7 @@ const STY = {
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: TWO ? 22 : 28, bold: true }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 0 } },
       { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: TWO ? 20 : 24, bold: true, italics: true }, paragraph: { spacing: { before: 240, after: 80 }, outlineLevel: 1 } },
       { id: "Caption", name: "Caption", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: TWO ? 17 : 20 }, paragraph: { spacing: { line: TWO ? 240 : 276, after: TWO ? 160 : 240 } } },
-      { id: "TableText", name: "Table Text", basedOn: "Normal", quickFormat: true, run: { font: FONT, size: TWO ? 16 : 18 }, paragraph: { spacing: { line: 220, after: 0 } } },
+      { id: "TableText", name: "Table Text", basedOn: "Normal", quickFormat: true, run: { font: FONT, size: TWO ? 17 : 18 }, paragraph: { spacing: { line: 220, after: 0 } } },
     ],
   };
 const PAGE = { size: { width: 11906, height: 16838 }, margin: TWO ? { top: 1000, bottom: 1000, left: 900, right: 900 } : { top: 1440, bottom: 1440, left: 1440, right: 1440 } };
