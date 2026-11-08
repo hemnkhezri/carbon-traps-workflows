@@ -158,19 +158,50 @@ const model = [
 ];
 
 
-const algoLines = [
-  "**Algorithm 1.** Gated deferral decision for one task.",
-  "~~Input:~~ task i with duration d; reference start a (CA-List: the earliest feasible start; CA-LS: the incumbent start sᵢ); candidate starts B (free, feasible for precedence and D); forecast F of the vintage used, of age τ_{c}; calibrated quantiles q[lag, horizon].",
-  "1  for each b in B:  h(a, b) ← τ_{c} + max(a, b) + d/2;   g(b) ← (F̄(a) − F̄(b)) − q[ bin(|b − a|), bin(h(a, b)) ]",
-  "2  b* ← argmax g(b)",
-  "3  if g(b*) > 0 then start i at b*, else start i at a   (CA-LS: else keep sᵢ)",
-  "~~Calibration (once per submission t₀):~~ for every vintage captured at c ∈ [t₀ − 7 d, t₀ − 49 h] and every pair of 30-min windows u < v realised before t₀, record e = (F(u) − F(v)) − (A(u) − A(v)) and −e, with lag v − u and horizon v − c; q[lag, horizon] ← α-quantile of e per bin (≥ 50 errors, else the largest quantile of all bins). bin(·) clips values above 48 h into the last bin.",
+// Algorithm 1 as a borderless table with journal-style horizontal rules (top, below the title, bottom).
+const ALG = [
+  // [line number, indent level, text]; kw: **bold** keywords, ~~italic~~ comments
+  ["", 0, "~~Input:~~ task i of duration d; reference start a (CA-List: earliest feasible start; CA-LS: incumbent start sᵢ); candidate starts B, each with a free machine and respecting precedence and D; planning forecast F̂ from a vintage of age τ_{c}; thresholds q ← Calibrate(t₀)"],
+  ["", 0, "~~Output:~~ start time b* of task i"],
+  ["1", 0, "b* ← a;  g* ← 0"],
+  ["2", 0, "**for each** b ∈ B **do**"],
+  ["3", 1, "ℓ ← |b − a|;  h ← τ_{c} + max(a, b) + d/2          ~~▹ lag and forecast horizon~~"],
+  ["4", 1, "g ← F̄(a, d) − F̄(b, d) − q[bin(ℓ), bin(h)]          ~~▹ forecast gain minus threshold~~"],
+  ["5", 1, "**if** g > g* **then** b* ← b;  g* ← g"],
+  ["6", 0, "**end for**"],
+  ["7", 0, "**return** b*          ~~▹ b* = a when no candidate passes the gate~~"],
+  ["", 0, "**Procedure** Calibrate(t₀)"],
+  ["8", 0, "E[ℓ, h] ← ∅ for every lag bin ℓ and horizon bin h"],
+  ["9", 0, "**for each** vintage F̂ captured at c ∈ [t₀ − 7 d, t₀ − 49 h] **do**"],
+  ["10", 1, "**for each** pair of 30-min windows u < v with v − u < 48 h and v realised before t₀ **do**"],
+  ["11", 2, "e ← (F̂(u) − F̂(v)) − (A(u) − A(v))          ~~▹ realised intensity A~~"],
+  ["12", 2, "add e and −e to E[bin(v − u), bin(v − c)]"],
+  ["13", 0, "**for each** bin (ℓ, h) **do** q[ℓ, h] ← α-quantile of E[ℓ, h] **if** |E[ℓ, h]| ≥ 50"],
+  ["14", 0, "set every remaining bin to the largest q[ℓ, h];  **return** q          ~~▹ bin(·) maps values above 48 h to the last bin~~"],
 ];
-const algo = algoLines.map((l, k) => wide(new Paragraph({
-  shading: { type: ShadingType.CLEAR, fill: "F2F2F2" }, keepNext: k < algoLines.length - 1,
-  spacing: { line: 260, before: k === 0 ? 200 : 0, after: k === algoLines.length - 1 ? 240 : 40 },
-  indent: { left: 200, right: 200 }, children: runs(l),
-})));
+const algo = (() => {
+  const rule = { style: BorderStyle.SINGLE, size: 6, color: "000000" }, thin = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
+  const two = typeof TWO !== "undefined" && TWO, W = two ? [560, 9546] : [520, 8506], sz = two ? 16 : 18;
+  const nob = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+  const para = (t, ind, opts = {}) => new Paragraph({ keepNext: true, spacing: { line: 240, before: 0, after: 0 },
+    tabStops: [{ type: TabStopType.RIGHT, position: W[1] - 200 }],
+    indent: { left: ind * 360 }, children: runs(t.replace(/ {4,}(~~▹)/, "\t$1"), sz), ...opts });
+  const rows = [new TableRow({ cantSplit: true, children: [new TableCell({ columnSpan: 2, margins: { top: 60, bottom: 60, left: 80, right: 80 },
+      borders: { top: rule, bottom: thin, left: nob, right: nob },
+      children: [para("**Algorithm 1.** Gated deferral decision for one task, and calibration of the gate", 0)] })] })];
+  ALG.forEach(([n, ind, t], k) => {
+    const last = k === ALG.length - 1, sep = t.startsWith("**Procedure**");
+    const b = { top: sep ? thin : nob, bottom: last ? rule : nob, left: nob, right: nob };
+    rows.push(new TableRow({ cantSplit: true, children: [
+      new TableCell({ width: { size: W[0], type: WidthType.DXA }, margins: { top: sep ? 60 : 0, bottom: 0, left: 80, right: 60 }, borders: b,
+        children: [para(n ? n + ":" : "", 0, { alignment: AlignmentType.RIGHT })] }),
+      new TableCell({ width: { size: W[1], type: WidthType.DXA }, margins: { top: sep ? 60 : 0, bottom: last ? 60 : 0, left: 80, right: 80 }, borders: b,
+        children: [para(t, ind, last ? { keepNext: false } : {})] }),
+    ] }));
+  });
+  return [wide(new Table({ width: { size: W[0] + W[1], type: WidthType.DXA }, columnWidths: W, rows })),
+          wide(new Paragraph({ spacing: { after: 120 }, children: [] }))];
+})();
 
 // ---------- 4 Schedulers ----------
 const scheds = [
