@@ -83,14 +83,14 @@ const tn = smallTable([
 
 // ---------- Front matter ----------
 const front = [
-  C("**Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 240, line: 320 } }, 32),
-  C("Hemn Khezri ^{a,*}, Mohammad Trik ^{b}", { spacing: { after: 120 } }),
-  C("^{a}~~ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Central Building, Shohada-ye 7 Tir Boulevard, Sardasht, West Azerbaijan Province, 5961933113, Iran~~", { spacing: { after: 40 } }, 20),
-  C("^{b}~~ Department of Computer Engineering, Bou.C., Islamic Azad University, Ostad Hazhar Boulevard (opposite Farhangian Town), Boukan, West Azerbaijan Province, 5951898895, Iran~~", { spacing: { after: 40 } }, 20),
-  C("^{*} Corresponding author. E-mail: hemnkhezri21@gmail.com", { spacing: { after: 300 } }, 20),
+  C("**Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 200, line: 300 } }, (typeof TWO !== "undefined" && TWO) ? 27 : 32),
+  C("Hemn Khezri ^{a,*}, Mohammad Trik ^{b}", { spacing: { after: 120 } }, (typeof TWO !== "undefined" && TWO) ? 21 : undefined),
+  C("^{a}~~ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Central Building, Shohada-ye 7 Tir Boulevard, Sardasht, West Azerbaijan Province, 5961933113, Iran~~", { spacing: { after: 40 } }, (typeof TWO !== "undefined" && TWO) ? 13 : 20),
+  C("^{b}~~ Department of Computer Engineering, Bou.C., Islamic Azad University, Ostad Hazhar Boulevard (opposite Farhangian Town), Boukan, West Azerbaijan Province, 5951898895, Iran~~", { spacing: { after: 40 } }, (typeof TWO !== "undefined" && TWO) ? 13 : 20),
+  C("^{*} Corresponding author. E-mail: hemnkhezri21@gmail.com", { spacing: { after: 300 } }, (typeof TWO !== "undefined" && TWO) ? 13 : 20),
   H2("Abstract"),
-  P("«ABSTRACT»"),
-  P("**Keywords:** carbon-aware computing; workflow scheduling; carbon-intensity forecasts; carbon traps; deadline-constrained DAG; forecast uncertainty; pre-registration"),
+  new Paragraph({ alignment: AlignmentType.JUSTIFIED, children: runs("«ABSTRACT»", (typeof TWO !== "undefined" && TWO) ? 14 : undefined) }),
+  new Paragraph({ alignment: AlignmentType.JUSTIFIED, children: runs("**Keywords:** carbon-aware computing; workflow scheduling; carbon-intensity forecasts; carbon traps; deadline-constrained DAG; forecast uncertainty; pre-registration", (typeof TWO !== "undefined" && TWO) ? 13 : undefined) }),
 ];
 
 // ---------- 1 Introduction ----------
@@ -181,7 +181,7 @@ const ALG = [
 ];
 const algo = (() => {
   const rule = { style: BorderStyle.SINGLE, size: 6, color: "000000" }, thin = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
-  const two = typeof TWO !== "undefined" && TWO, W = two ? [560, 9546] : [520, 8506], sz = two ? 16 : 18;
+  const two = typeof TWO !== "undefined" && TWO, W = two ? [500, 9886] : [520, 8506], sz = two ? 14 : 18;
   const nob = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
   const para = (t, ind, opts = {}) => new Paragraph({ keepNext: true, spacing: { line: 240, before: 0, after: 0 },
     tabStops: [{ type: TabStopType.RIGHT, position: W[1] - 200 }],
