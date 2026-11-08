@@ -13,7 +13,8 @@ for f in sys.argv[1:]:
                 x, n2 = re.subn(r"<m:r><m:t(?: [^>]*)?>Ā</m:t></m:r>", ACC.format("A"), x)
                 x, n3 = re.subn(r'<m:d><m:dPr><m:begChr m:val="\["/><m:endChr m:val="\]"/></m:dPr><m:e><m:r><m:t>\u2063</m:t></m:r>',
                                 '<m:d><m:dPr><m:begChr m:val="|"/><m:endChr m:val="|"/></m:dPr><m:e>', x)
-                print(f, "accents:", n1 + n2, "abs:", n3)
+                x, n4 = re.subn("<m:r><m:t([^>]*)>\u2060([^<]*)</m:t></m:r>", r'<m:r><m:rPr><m:sty m:val="p"/></m:rPr><m:t\1>\2</m:t></m:r>', x)
+                print(f, "accents:", n1 + n2, "abs:", n3, "upright:", n4)
                 data = x.encode("utf8")
             zout.writestr(it, data)
     shutil.move(tmp, f)
