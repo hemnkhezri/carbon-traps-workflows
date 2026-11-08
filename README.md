@@ -1,6 +1,6 @@
 # Carbon traps in carbon-aware workflow scheduling
 
-[![DOI](https://zenodo.org/badge/DOI/ZENODO_DOI.svg)](https://doi.org/ZENODO_DOI)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24055544.svg)](https://doi.org/10.5281/zenodo.24055544)
 
 Code, sealed analysis plans, deviation logs and raw results for the article
 
