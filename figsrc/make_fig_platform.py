@@ -20,7 +20,7 @@ vals = [[100 * m[m.region == r][c].mean() for r in regs] + [100 * m[c].mean()] f
 for j, (v, c, lab) in enumerate(zip(vals, (NEUTRAL, BLUE, ORANGE), ("flat signal (mapping only)", "oracle", "model forecast"))):
     a1.bar(X + (j - 1) * w, v, w * 0.92, color=c, label=lab)
 a1.axhline(0, color=INK, lw=0.8)
-a1.set_xticks(X, regs + ["all"]); a1.set_ylabel("emission saving vs HEFT (%)")
+a1.set_xticks(X, regs + ["all"]); a1.set_ylabel("Emission saving vs HEFT (%)")
 a1.legend(loc="upper left", fontsize=7.5, ncol=3, handlelength=1.2, columnspacing=0.8, bbox_to_anchor=(0, 1.02))
 a1.set_ylim(min(0, min(map(min, vals)) - 0.5), max(map(max, vals)) * 1.32)
 a1.set_title("(a) Heterogeneous platform, CA-LS", loc="left", fontweight="bold")
@@ -33,7 +33,7 @@ for j, (col, reg, lab, c, hat) in enumerate(spec):
     v = [100 * E[(E.sched == s) & (E.regime == reg)][col].mean() for s, _ in tools]
     a2.bar(X + (j - 1.5) * w, v, w * 0.92, color=c, hatch=hat, edgecolor="white", lw=0.5, label=lab)
     print(lab, [round(x, 1) for x in v])
-a2.axhline(0, color=INK, lw=0.8); a2.set_xticks(X, [t for _, t in tools]); a2.set_ylabel("reduction vs HEFT (%)")
+a2.axhline(0, color=INK, lw=0.8); a2.set_xticks(X, [t for _, t in tools]); a2.set_ylabel("Reduction vs HEFT (%)")
 a2.legend(loc="upper right", fontsize=7, handlelength=1.4)
 a2.set_title("(b) Official schedulers", loc="left", fontweight="bold")
 fig.tight_layout(w_pad=1.5)

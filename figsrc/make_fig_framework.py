@@ -54,7 +54,7 @@ ax.plot(t, real, color=BLUE, lw=1.6)
 ax.text(6.5, 160, "realised", color=BLUE, fontsize=8, ha="left", va="center")
 ax.text(19.5, 140, "issued\nforecasts", color=ORANGE, fontsize=8, ha="left", va="center")
 ax.set_xlim(0, 24); ax.set_ylim(105, 210); ax.set_xticks([0, 12, 24]); ax.set_yticks([])
-ax.set_xlabel("hours after submission", fontsize=8, labelpad=1); ax.grid(False); ax.tick_params(length=2, pad=1)
+ax.set_xlabel("Hours after submission", fontsize=8, labelpad=1); ax.grid(False); ax.tick_params(length=2, pad=1)
 
 # ---------- (c) planning ----------
 head(0.255, "(c) Planning on the forecast")

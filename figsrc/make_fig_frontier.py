@@ -23,7 +23,7 @@ others = [("CA-LS+SG", "no gate", NEUTRAL, "s"), ("CA-LS+SG+Gate[const]", "const
           ("Shift", "Shift", YELLOW, "o"), ("Shift+Gate", "Shift + gate", AQUA, "o")]
 for s, lab, c, m in others:
     x, y = pt(s); a1.plot(x, y, m, color=c, ms=6.5, mec="white", mew=0.7, ls="", label=lab, zorder=3)
-a1.set_xlabel("carbon traps (% of runs)"); a1.set_ylabel("mean saving vs HEFT (%)")
+a1.set_xlabel("Carbon traps (% of runs)"); a1.set_ylabel("Mean saving vs HEFT (%)")
 a1.set_xlim(-0.5, 13); a1.set_ylim(3.5, 10.5)
 a1.legend(loc="lower right", fontsize=7, ncol=1, handletextpad=0.3, labelspacing=0.25, borderaxespad=0.2)
 a1.set_title("(a) Strategies, GB issued forecasts", loc="left", fontweight="bold")
@@ -39,7 +39,7 @@ for nm, lab, c, m in (("RC-CAS", "risk-controlled selection", RED, "s"), ("RCv2"
     p = np.array([q(f"{nm}[{a}]") for a in ("0.05", "0.1", "0.2")])
     a2.plot(p[:, 0], p[:, 1], "--" + m, color=c, ms=5, mec="white", lw=1.2, label=lab, zorder=3)
 x, y = q("CA-LS+SG"); a2.plot(x, y, "s", color=NEUTRAL, ms=6, mec="white", label="no gate")
-a2.set_xlabel("carbon traps (% of runs)"); a2.set_ylabel("mean saving, f ≥ 1.5 (%)")
+a2.set_xlabel("Carbon traps (% of runs)"); a2.set_ylabel("Mean saving, f ≥ 1.5 (%)")
 a2.legend(loc="lower right", fontsize=7, handletextpad=0.3, labelspacing=0.25)
 a2.set_title("(b) Risk-controlled planners (dev.)", loc="left", fontweight="bold")
 a2.set_xlim(-0.5, 14); 

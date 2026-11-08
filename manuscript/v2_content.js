@@ -1,5 +1,5 @@
 // Manuscript v2 content. Built by build_v2.js (helpers + math + revision section + this file).
-const C = (t, opts = {}) => new Paragraph({ alignment: AlignmentType.CENTER, children: runs(t), ...opts });
+const C = (t, opts = {}, size) => new Paragraph({ alignment: AlignmentType.CENTER, children: runs(t, size), ...opts });
 const bullet = (t) => new Paragraph({ children: runs("•  " + t), alignment: AlignmentType.JUSTIFIED, indent: { left: 360, hanging: 240 }, spacing: { after: 60 } });
 const H3 = (t) => new Paragraph({ keepNext: true, spacing: { before: 160, after: 60 }, children: runs(`~~${t}~~`) });
 
@@ -83,11 +83,11 @@ const tn = smallTable([
 
 // ---------- Front matter ----------
 const front = [
-  C("**Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 200 } }),
-  C("Hemn Khezri ᵃ,*, Mohammad Trik ᵇ"),
-  C("ᵃ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Sardasht, Iran"),
-  C("ᵇ Department of Computer Engineering, Bou.C., Islamic Azad University, Boukan, Iran"),
-  C("* Corresponding author. E-mail: hemnkhezri21@gmail.com", { spacing: { after: 300 } }),
+  C("**Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 240, line: 320 } }, 32),
+  C("Hemn Khezri ^{a,*}, Mohammad Trik ^{b}", { spacing: { after: 120 } }),
+  C("^{a}~~ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Sardasht, Iran~~", { spacing: { after: 40 } }, 20),
+  C("^{b}~~ Department of Computer Engineering, Bou.C., Islamic Azad University, Boukan, Iran~~", { spacing: { after: 40 } }, 20),
+  C("^{*} Corresponding author. E-mail: hemnkhezri21@gmail.com", { spacing: { after: 300 } }, 20),
   H2("Highlights"),
   bullet("Workflow schedulers are replayed against carbon forecasts that were actually issued."),
   bullet("Issued forecasts keep about two-thirds of the oracle carbon saving."),
@@ -312,7 +312,7 @@ const tS6 = smallTable([
   ["64", "15.81", "0.79", "9.7 / 2.5", "58.1 / 27.8 / 8.8", "0.76"],
 ], [1100, 1700, 1100, 1700, 2326, 1100]);
 const supplementary = [
-  C("**Supplementary Material for: Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**"),
+  C("**Supplementary Material for: Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 240 } }, 28),
   P("Hemn Khezri, Mohammad Trik. This file contains the supplementary methods (Sections S1–S5), tables and figure cited in the main text. All values come from the public repository of the study; the scripts that produce each table are listed there."),
   H2("S1. Adapters for the official schedulers"),
   P("CaWoSched (KIT-EAE/CaWoSched, commit dfc8e49) and CWM (KIT-EAE/CWM, commit 50e9ef5) were built from source. CWM needed two non-algorithmic changes: read-only accessors that print the final schedule, and a missing standard-library include for GCC 13. CaWoSched's validity check rejects edges without data, so every cross-machine edge carries a one-minute transfer inside CaWoSched; this makes its plans slightly conservative in our transfer-free simulator. Intensity over the windows up to D is inverted and rescaled to a budget between the total idle power and the idle power plus frac × the dynamic power: for each 30-minute window k ≤ ⌈D/30⌉, budget(k) = Σₘ p₀(m) + frac · Σₘ (p(m) − p₀(m)) · (Î_{max} − Î(k)) / (Î_{max} − Î_{min}), where Î_{max} and Î_{min} are the largest and smallest planning intensities over those windows. On the homogeneous platform p₀ = 0 and Σₘ (p(m) − p₀(m)) = P · p; on the heterogeneous one the sums run over the four slow and four fast machines (idle 4 · 1 + 4 · 2 = 12 units, dynamic 4 · 9 + 4 · 13 = 88 units). If Î_{max} = Î_{min} the fraction is set to 1, giving the full budget in every window. Budgets are rounded to integers after scaling powers by 10, because the tools take integer budgets. On development data (five workflows, two targets, six submissions, two deadline factors; n = 120 per cell) the full range (frac = 1.0) gave CaWoSched an oracle emission saving of 4.85%, against 2.34–2.56% for frac 0.2–0.4. On the heterogeneous platform (development data, raw CWM) frac 1.0 gave −0.1% against −1.4% to −1.9%. Every schedule returned by either tool was checked for precedence, capacity and the deadline."),

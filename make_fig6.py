@@ -55,7 +55,7 @@ for c_, l_ in ((BLUE, "CA-LS variants"), (AQUA, "CA-LS + gate"), (ORANGE, "Shift
     a1.plot([], [], marker="s", color=c_, ls="", ms=5, label=l_)
 a1.set_xlabel("Deadline misses with runtime noise (%)"); a1.set_ylabel("Mean carbon saving vs HEFT (%)")
 a1.set_xlim(-2, 54); a1.set_ylim(-0.6, 11)
-a1.legend(loc="lower right", ncol=1, fontsize=6.8, handletextpad=0.2, labelspacing=0.3); a1.set_title("(a) Saving and deadline risk, all f", loc="left", fontsize=8.5, color=INK)
+a1.legend(loc="lower right", ncol=1, fontsize=7.2, handletextpad=0.2, labelspacing=0.3); a1.set_title("(a) Saving and deadline risk, all f", loc="left", fontsize=9.5, color=INK, fontweight="bold")
 # (b) misses by deadline factor
 F = sorted(A.f.unique()); X = np.arange(len(F))
 for s, col, lab, col_, ls, mk, dx in [("CA-LS+SG", BLUE, "CA-LS, static", "miss_rt", "-", "o", -0.12),
@@ -68,7 +68,7 @@ for s, col, lab, col_, ls, mk, dx in [("CA-LS+SG", BLUE, "CA-LS, static", "miss_
                 markerfacecolor=col if ls != "--" else "white", markeredgewidth=1)
 a2.set_xticks(X, [f"{f:g}" for f in F]); a2.set_xlabel("Deadline factor f"); a2.set_ylabel("Deadline misses (%)")
 a2.set_ylim(bottom=0); a2.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2)
-a2.set_title("(b) Misses by deadline factor", loc="left", fontsize=8.5, color=INK)
+a2.set_title("(b) Misses by deadline factor", loc="left", fontsize=9.5, color=INK, fontweight="bold")
 fig.tight_layout()
 for e in ("pdf", "png"):
     fig.savefig(f"figures/fig6_deadline_tradeoff.{e}", bbox_inches="tight")

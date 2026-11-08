@@ -28,13 +28,13 @@ const STY = {
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: 28, bold: true }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 0 } },
       { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: 24, bold: true, italics: true }, paragraph: { spacing: { before: 240, after: 80 }, outlineLevel: 1 } },
       { id: "Caption", name: "Caption", basedOn: "Normal", next: "Normal", quickFormat: true, run: { font: FONT, size: 20 }, paragraph: { spacing: { line: 276, after: 240 } } },
-      { id: "TableText", name: "Table Text", basedOn: "Normal", quickFormat: true, run: { font: FONT, size: 17 }, paragraph: { spacing: { line: 220, after: 0 } } },
+      { id: "TableText", name: "Table Text", basedOn: "Normal", quickFormat: true, run: { font: FONT, size: 18 }, paragraph: { spacing: { line: 220, after: 0 } } },
     ],
   };
 const doc = new Document({
   styles: STY,
-  sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: TWO ? { top: 1250, bottom: 1250, left: 900, right: 900 } : { top: 1440, bottom: 1440, left: 1440, right: 1440 } }, ...(TWO ? { column: { count: 2, space: 400 } } : {}) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ children: [PageNumber.CURRENT] })] })] }) },
+  sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: TWO ? { top: 1250, bottom: 1250, left: 900, right: 900 } : { top: 1440, bottom: 1440, left: 1440, right: 1440 } }, ...(TWO ? { column: { count: 2, space: 400 } } : { lineNumbers: { countBy: 1, restart: require("docx").LineNumberRestartFormat.CONTINUOUS, distance: 300 } }) },
+    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, suppressLineNumbers: true, children: [new TextRun({ children: [PageNumber.CURRENT] })] })] }) },
     children: all }],
 });
 const sdoc = new Document({ styles: STY, sections: [{ properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 } } }, children: supplementary }] });

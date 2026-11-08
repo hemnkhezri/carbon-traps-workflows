@@ -18,7 +18,7 @@ for i in range(5):
         a.text(j, i, "–" if np.isnan(cov[i, j]) else f"{100*cov[i, j]:.1f}", ha="center", va="center", fontsize=8.5,
                color=NEUTRAL if np.isnan(cov[i, j]) else INK)
 a.set_xticks(range(4), ["0–6", "6–12", "12–24", "24–48"]); a.set_yticks(range(5), ["0–3", "3–6", "6–12", "12–24", "24–48"])
-a.set_xlabel("forecast horizon (h)", labelpad=1); a.set_ylabel("deferral lag (h)", labelpad=1); a.grid(False); a.tick_params(length=0)
+a.set_xlabel("Forecast horizon (h)", labelpad=1); a.set_ylabel("Deferral lag (h)", labelpad=1); a.grid(False); a.tick_params(length=0)
 for s in a.spines.values():
     s.set_visible(False)
 a.set_title("(a) Coverage per bin, 30-min windows (%)", loc="left", fontweight="bold")
@@ -26,7 +26,7 @@ b.axhline(90, color=INK2, ls="--", lw=1); b.text(8.3, 90.4, "nominal 90%", fonts
 b.plot(dur, 100 * c, "-o", color=BLUE, ms=5, mec="white", label="all decisions")
 b.plot(dur, 100 * p10, ":s", color=ORANGE, ms=4.5, mec="white", lw=1.4, label="10th percentile over submissions")
 b.set_xscale("log", base=2); b.set_xticks(dur, ["0.5", "1", "2", "4", "8"]); b.minorticks_off()
-b.set_xlabel("task duration (h)", labelpad=1); b.set_ylabel("coverage (%)", labelpad=1); b.set_ylim(78, 98)
+b.set_xlabel("Task duration (h)", labelpad=1); b.set_ylabel("Coverage (%)", labelpad=1); b.set_ylim(78, 98)
 b.legend(loc="upper left", fontsize=7.5)
 b.set_title("(b) Coverage by task duration", loc="left", fontweight="bold")
 fig.tight_layout(w_pad=2.0)

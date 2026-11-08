@@ -74,9 +74,9 @@ for ax, (s, title) in zip(axes, [("CA-LS+SG", "(a) CA-LS + safeguard"),
     if (d[(d.sched == s)].regime == "synthetic").any():
         plot_ci(ax, X, series(s, "synthetic", "saving", F), ORANGE, "Synthetic noise", marker="^", dx=0.0)
     plot_ci(ax, X, series(s, "issued", "saving", F), BLUE, "Issued forecast", dx=0.12)
-    ax.set_title(title, loc="left", color=INK)
+    ax.set_title(title, loc="left", color=INK, fontweight="bold")
     ax.set_xticks(X, XL)
-fig.supxlabel("Deadline factor f (D = f x HEFT makespan)", fontsize=8, y=-0.04)
+fig.supxlabel("Deadline factor f (D = f × HEFT makespan)", fontsize=8, y=-0.04)
 axes[0].set_ylabel("Mean carbon saving vs HEFT (%)")
 axes[0].set_ylim(bottom=0)
 h, l = axes[0].get_legend_handles_labels()
@@ -111,8 +111,8 @@ save(fig, "fig6_deadline_misses")
 
 # Fig 3: forecast error by horizon, development vs confirmatory period
 archive = sys.argv[1]
-periods = {"Mar 2023 - Feb 2024 (development)": ["2023-%02d" % m for m in range(3, 13)] + ["2024-01", "2024-02"],
-           "Jul - Oct 2026 (confirmatory)": ["2026-07", "2026-08", "2026-09", "2026-10"]}
+periods = {"Mar 2023 – Feb 2024 (development)": ["2023-%02d" % m for m in range(3, 13)] + ["2024-01", "2024-02"],
+           "Jul – Oct 2026 (confirmatory)": ["2026-07", "2026-08", "2026-09", "2026-10"]}
 edges = np.array([0, 1, 3, 6, 12, 18, 24, 30, 36, 42, 48.01])
 mid = (edges[:-1] + edges[1:]) / 2
 fig, ax = plt.subplots(figsize=(3.5, 2.4))

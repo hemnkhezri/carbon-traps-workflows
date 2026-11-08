@@ -60,22 +60,22 @@ function table(rows, W) {
   });
 }
 const tnote = (t) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, 18) });
-const caption = (t) => new Paragraph({ keepNext: true, spacing: { before: 200, after: 80 }, children: runs(t) });
+const caption = (t) => new Paragraph({ keepNext: true, alignment: AlignmentType.JUSTIFIED, style: "Caption", spacing: { before: 200, after: 80, line: 276 }, children: runs(t) });
 
 
 // Table 1 (small font via TableText style)
 function smallTable(rows, W, hl = -1) {
-  const cell = (text, i, { head, top, bottom, shade }) => new TableCell({
+  const cell = (text, i, { head, top, bottom, shade, last }) => new TableCell({
     width: { size: W[i], type: WidthType.DXA },
     margins: { top: 40, bottom: 40, left: 60, right: 60 },
     shading: shade ? { type: ShadingType.CLEAR, fill: "EEF4FB" } : undefined,
     borders: { top: top ? border : none, bottom: bottom ? border : none, left: none, right: none },
-    children: [new Paragraph({ style: "TableText", children: runs(head ? `**${text}**` : text) })],
+    children: [new Paragraph({ style: "TableText", keepNext: !last, children: runs(head ? `**${text}**` : text) })],
   });
   return new Table({
     width: { size: W.reduce((a, b) => a + b, 0), type: WidthType.DXA }, columnWidths: W,
     rows: rows.map((r, ri) => new TableRow({ tableHeader: ri === 0, cantSplit: true,
       children: r.map((c, ci) => cell(c, ci, { head: ri === 0 || ri === hl, top: ri <= 1 || ri === hl,
-        bottom: ri === 0 || ri === rows.length - 1 || ri === hl, shade: ri === hl })) })),
+        bottom: ri === 0 || ri === rows.length - 1 || ri === hl, shade: ri === hl, last: ri === rows.length - 1 })) })),
   });
 }
