@@ -85,8 +85,8 @@ const tn = smallTable([
 const front = [
   C("**Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 240, line: 320 } }, 32),
   C("Hemn Khezri ^{a,*}, Mohammad Trik ^{b}", { spacing: { after: 120 } }),
-  C("^{a}~~ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Sardasht, Iran~~", { spacing: { after: 40 } }, 20),
-  C("^{b}~~ Department of Computer Engineering, Bou.C., Islamic Azad University, Boukan, Iran~~", { spacing: { after: 40 } }, 20),
+  C("^{a}~~ Young Researchers and Elite Club, Sardasht Branch, Islamic Azad University, Central Building, Shohada-ye 7 Tir Boulevard, Sardasht, West Azerbaijan Province, 5961933113, Iran~~", { spacing: { after: 40 } }, 20),
+  C("^{b}~~ Department of Computer Engineering, Bou.C., Islamic Azad University, Ostad Hazhar Boulevard (opposite Farhangian Town), Boukan, West Azerbaijan Province, 5951898895, Iran~~", { spacing: { after: 40 } }, 20),
   C("^{*} Corresponding author. E-mail: hemnkhezri21@gmail.com", { spacing: { after: 300 } }, 20),
   H2("Abstract"),
   P("«ABSTRACT»"),
