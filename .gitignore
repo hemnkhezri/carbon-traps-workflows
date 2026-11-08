@@ -6,3 +6,4 @@ external/cwm_dump
 results/ext/
 results/het/*_3?.csv
 *.part.partial
+manuscript/
