@@ -166,11 +166,11 @@ const algoLines = [
   "3  if g(b*) > 0 then start i at b*, else start i at a   (CA-LS: else keep sᵢ)",
   "~~Calibration (once per submission t₀):~~ for every vintage captured at c ∈ [t₀ − 7 d, t₀ − 49 h] and every pair of 30-min windows u < v realised before t₀, record e = (F(u) − F(v)) − (A(u) − A(v)) and −e, with lag v − u and horizon v − c; q[lag, horizon] ← α-quantile of e per bin (≥ 50 errors, else the largest quantile of all bins). bin(·) clips values above 48 h into the last bin.",
 ];
-const algo = algoLines.map((l, k) => new Paragraph({
+const algo = algoLines.map((l, k) => wide(new Paragraph({
   shading: { type: ShadingType.CLEAR, fill: "F2F2F2" }, keepNext: k < algoLines.length - 1,
   spacing: { line: 260, before: k === 0 ? 200 : 0, after: k === algoLines.length - 1 ? 240 : 40 },
   indent: { left: 200, right: 200 }, children: runs(l),
-}));
+})));
 
 // ---------- 4 Schedulers ----------
 const scheds = [

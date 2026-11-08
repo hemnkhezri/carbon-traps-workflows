@@ -31,18 +31,24 @@ const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, keepNext: tru
 const H2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, keepNext: true, children: [new TextRun(t)] });
 // Display equation: centred text, number at right margin
 const EQ = (t, n) => new Paragraph({
-  tabStops: [{ type: TabStopType.CENTER, position: 4513 }, { type: TabStopType.RIGHT, position: 9026 }],
+  tabStops: (typeof TWO !== "undefined" && TWO) ? [{ type: TabStopType.CENTER, position: 2426 }, { type: TabStopType.RIGHT, position: 4853 }] : [{ type: TabStopType.CENTER, position: 4513 }, { type: TabStopType.RIGHT, position: 9026 }],
   spacing: { before: 120, after: 120 },
   children: [new TextRun({ text: "\t" }), ...runs(t), new TextRun({ text: `\t(${n})` })],
 });
 
+// Double-column layout: items spanning both columns (wide figures, tables, algorithm) go into one-column sections.
+const WIDE = new WeakSet(), CAP = new WeakSet(), NOTE = new WeakSet();
+const wide = (x) => { if (typeof TWO !== "undefined" && TWO) WIDE.add(x); return x; };
 function figure(file, w, h, caption) {
+  const two = typeof TWO !== "undefined" && TWO, isWide = w >= 500;
+  const k = !two ? 1 : (isWide ? 673 / w : 0.98);
   return [
-    new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, spacing: { before: 200 },
-      children: [new ImageRun({ type: "png", data: fs.readFileSync(FIG + file), transformation: (typeof TWO !== 'undefined' && TWO) ? { width: Math.round(w * 0.53), height: Math.round(h * 0.53) } : { width: w, height: h } })] }),
-    new Paragraph({ alignment: AlignmentType.JUSTIFIED, style: "Caption", children: runs(caption) }),
+    wide2(new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, spacing: { before: 200, line: 240, lineRule: LineRuleType.AUTO },
+      children: [new ImageRun({ type: "png", data: fs.readFileSync(FIG + file), transformation: { width: Math.round(w * k), height: Math.round(h * k) } })] }), isWide),
+    wide2(new Paragraph({ alignment: AlignmentType.JUSTIFIED, style: "Caption", children: runs(caption) }), isWide),
   ];
 }
+function wide2(x, cond) { return cond ? wide(x) : x; }
 
 const border = { style: BorderStyle.SINGLE, size: 4, color: "000000" };
 const none = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
@@ -53,14 +59,14 @@ function table(rows, W) {
     borders: { top: top ? border : none, bottom: bottom ? border : none, left: none, right: none },
     children: [new Paragraph({ spacing: { line: 240, after: 0 }, children: runs(head ? `**${text}**` : text) })],
   });
-  return new Table({
+  return wide(new Table({
     width: { size: W.reduce((a, b) => a + b, 0), type: WidthType.DXA }, columnWidths: W,
     rows: rows.map((r, ri) => new TableRow({ tableHeader: ri === 0, cantSplit: true,
       children: r.map((c, ci) => cell(c, ci, { head: ri === 0, top: ri <= 1, bottom: ri === 0 || ri === rows.length - 1 })) })),
-  });
+  }));
 }
-const tnote = (t) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, 18) });
-const caption = (t) => new Paragraph({ keepNext: true, alignment: AlignmentType.JUSTIFIED, style: "Caption", spacing: { before: 200, after: 80, line: 276 }, children: runs(t) });
+const tnote = (t) => { const p = new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { before: 60, after: 200, line: 240 }, children: runs(t, (typeof TWO !== "undefined" && TWO) ? 16 : 18) }); NOTE.add(p); return p; };
+const caption = (t) => { const p = new Paragraph({ keepNext: true, alignment: AlignmentType.JUSTIFIED, style: "Caption", spacing: { before: 200, after: 80, line: 276 }, children: runs(t) }); CAP.add(p); return p; };
 
 
 // Table 1 (small font via TableText style)
@@ -72,10 +78,10 @@ function smallTable(rows, W, hl = -1) {
     borders: { top: top ? border : none, bottom: bottom ? border : none, left: none, right: none },
     children: [new Paragraph({ style: "TableText", keepNext: !last, children: runs(head ? `**${text}**` : text) })],
   });
-  return new Table({
+  return wide(new Table({
     width: { size: W.reduce((a, b) => a + b, 0), type: WidthType.DXA }, columnWidths: W,
     rows: rows.map((r, ri) => new TableRow({ tableHeader: ri === 0, cantSplit: true,
       children: r.map((c, ci) => cell(c, ci, { head: ri === 0 || ri === hl, top: ri <= 1 || ri === hl,
         bottom: ri === 0 || ri === rows.length - 1 || ri === hl, shade: ri === hl, last: ri === rows.length - 1 })) })),
-  });
+  }));
 }

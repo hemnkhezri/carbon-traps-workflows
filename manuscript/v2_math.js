@@ -10,7 +10,7 @@ const msum = (lo, body) => new MathSum({ children: body, subScript: lo });
 const rb = (body) => new MathRoundBrackets({ children: body });
 const sb = (body) => new MathSquareBrackets({ children: body });
 const MEQ = (parts, n) => new Paragraph({
-  tabStops: [{ type: TabStopType.CENTER, position: 4513 }, { type: TabStopType.RIGHT, position: 9026 }],
+  tabStops: (typeof TWO !== "undefined" && TWO) ? [{ type: TabStopType.CENTER, position: 2426 }, { type: TabStopType.RIGHT, position: 4853 }] : [{ type: TabStopType.CENTER, position: 4513 }, { type: TabStopType.RIGHT, position: 9026 }],
   spacing: { before: 120, after: 120 },
   children: [new TextRun({ text: "\t" }), new OMath({ children: parts }), new TextRun({ text: `\t(${n})` })],
 });
