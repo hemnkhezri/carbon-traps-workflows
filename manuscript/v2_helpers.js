@@ -1,34 +1,77 @@
 const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, ImageRun,
-  Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType, LineRuleType, TabStopType,
+  Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType, LineRuleType, TabStopType, InternalHyperlink, Bookmark,
 } = require("docx");
 
 const FIG = "/home/claude/carbon-wf-forecast/figures/";
 const FONT = "Times New Roman";
 
-// Inline markup: **bold**, _italic_, cite markers -> yellow placeholder
+// Inline markup: **bold**, ~~italic~~, _{sub}, ^{sup}; cite markers; in the main text, numbered citations and
+// cross-references to sections, tables, figures and the appendix become coloured internal hyperlinks.
+var LINKS = true;
+const LINKC = "0563C1";
+const XREF = /(?:Figs?\.|Tables?|Sections?|Appendix) (?:\d+[a-z]?(?:\.\d+)?|[A-C]\b)(?:(?:, | and | or |–)(?:\d+[a-z]?(?:\.\d+)?|[A-C]\b))*/;
+const anchorOf = (kind, n) => {
+  const base = n.replace(/[a-z]$/, "");
+  if (kind.startsWith("Fig")) return "fig_" + base;
+  if (kind.startsWith("Table")) return "tab_" + base;
+  if (kind.startsWith("Appendix")) return "app_" + base;
+  return "sec_" + base.replace(".", "_");
+};
+const link = (anchor, text, z) => new InternalHyperlink({ anchor, children: [new TextRun({ ...z, text, color: LINKC })] });
+function xrefRuns(t, z) {
+  const kind = t.match(/^(Figs?\.|Tables?|Sections?|Appendix)/)[0];
+  const out = []; const re = /(\d+[a-z]?(?:\.\d+)?|\b[A-C]\b)/g; let last = kind.length, m, first = true;
+  out.push(...[]);
+  while ((m = re.exec(t)) !== null) {
+    if (m.index < kind.length) continue;
+    const sep = t.slice(last, m.index);
+    if (first) { out.push(link(anchorOf(kind, m[0]), kind + sep + m[0], z)); first = false; }
+    else { out.push(new TextRun({ ...z, text: sep })); out.push(link(anchorOf(kind, m[0]), m[0], z)); }
+    last = m.index + m[0].length;
+  }
+  if (last < t.length) out.push(new TextRun({ ...z, text: t.slice(last) }));
+  return out;
+}
+function citeRuns(body, z) {  // body like "1,3–5"
+  const out = [new TextRun({ ...z, text: "[" })];
+  body.split(/(,|–)/).forEach(p => {
+    if (p === "," || p === "–") out.push(new TextRun({ ...z, text: p }));
+    else if (p) out.push(LINKS ? link("ref_" + p, p, z) : new TextRun({ ...z, text: p }));
+  });
+  out.push(new TextRun({ ...z, text: "]" }));
+  return out;
+}
 function runs(text, size) {
   const z = size ? { size } : {};
   const out = [];
-  const re = /(\*\*[^*]+\*\*|~~[^~]+~~|\[\[[^\]]+\]\]|_\{[^}]+\}|\^\{[^}]+\})/g;
+  const re = new RegExp("(\\*\\*[^*]+\\*\\*|~~[^~]+~~|\\[\\[[^\\]]+\\]\\]|⟦[^⟧]+⟧|_\\{[^}]+\\}|\\^\\{[^}]+\\}" + (LINKS ? "|" + XREF.source : "") + ")", "g");
   let last = 0, m;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) out.push(new TextRun({ ...z, text: text.slice(last, m.index) }));
     const t = m[0];
-    if (t.startsWith("**")) out.push(new TextRun({ ...z, text: t.slice(2, -2), bold: true }));
+    if (t.startsWith("**")) {
+      const lab = t.slice(2, -2), mm = lab.match(/^(Fig|Table)\. ?(\d+)\.$|^Table (\d+)\.$/);
+      const r = new TextRun({ ...z, text: lab, bold: true });
+      out.push(LINKS && mm ? new Bookmark({ id: (mm[1] === "Fig" ? "fig_" : "tab_") + (mm[2] || mm[3]), children: [r] }) : r);
+    }
     else if (t.startsWith("~~")) out.push(new TextRun({ ...z, text: t.slice(2, -2), italics: true }));
     else if (t.startsWith("_{")) out.push(new TextRun({ ...z, text: t.slice(2, -1), subScript: true }));
     else if (t.startsWith("^{")) out.push(new TextRun({ ...z, text: t.slice(2, -1), superScript: true }));
-    else out.push(new TextRun({ ...z, text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
+    else if (t.startsWith("⟦")) out.push(...citeRuns(t.slice(1, -1), z));
+    else if (t.startsWith("[[")) out.push(new TextRun({ ...z, text: "[" + t.slice(2, -2).trim() + "]", highlight: "yellow" }));
+    else out.push(...xrefRuns(t, z));
     last = m.index + t.length;
   }
   if (last < text.length) out.push(new TextRun({ ...z, text: text.slice(last) }));
   return out;
 }
 const P = (t, opts = {}) => new Paragraph({ children: runs(t), alignment: AlignmentType.JUSTIFIED, ...opts });
-const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, keepNext: true, children: [new TextRun(t)] });
-const H2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, keepNext: true, children: [new TextRun(t)] });
+const secAnchor = (t) => { let m = t.match(/^(\d+)\.(\d+) /); if (m) return `sec_${m[1]}_${m[2]}`; m = t.match(/^(\d+)\. /); if (m) return `sec_${m[1]}`; m = t.match(/^Appendix ([A-Z])\./); return m ? `app_${m[1]}` : null; };
+const headRun = (t) => { const a = LINKS ? secAnchor(t) : null; const r = new TextRun(t); return a ? [new Bookmark({ id: a, children: [r] })] : [r]; };
+const H1 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_1, keepNext: true, children: headRun(t) });
+const H2 = (t) => new Paragraph({ heading: HeadingLevel.HEADING_2, keepNext: true, children: headRun(t) });
 // Display equation: centred text, number at right margin
 const EQ = (t, n) => new Paragraph({
   tabStops: (typeof TWO !== "undefined" && TWO) ? [{ type: TabStopType.CENTER, position: 2426 }, { type: TabStopType.RIGHT, position: 4853 }] : [{ type: TabStopType.CENTER, position: 4513 }, { type: TabStopType.RIGHT, position: 9026 }],

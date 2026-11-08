@@ -14,10 +14,10 @@ if (ORDER) {
     const u = [...new Set(ns)].sort((a, b) => a - b); const parts = [];
     for (let i = 0; i < u.length; ) { let j = i; while (j + 1 < u.length && u[j + 1] === u[j] + 1) j++;
       parts.push(j - i >= 2 ? `${u[i]}–${u[j]}` : (j > i ? `${u[i]},${u[j]}` : `${u[i]}`)); i = j + 1; }
-    return "[" + parts.join(",") + "]";
+    return "⟦" + parts.join(",") + "⟧";
   });
   src = src.replace('P("[Insert with the Zotero Word plug-in, Elsevier numbered style.]"),',
-    "...REFS.map((r, i) => new Paragraph({ alignment: AlignmentType.LEFT, indent: { left: TWO ? 360 : 480, hanging: TWO ? 360 : 480 }, spacing: { line: TWO ? 200 : 260, after: TWO ? 20 : 60 }, children: [new TextRun({ text: `[${i + 1}]\\t` + r, size: TWO ? 15 : 20 })], tabStops: [{ type: TabStopType.LEFT, position: 480 }] })),");
+    "...REFS.map((r, i) => new Paragraph({ alignment: AlignmentType.LEFT, indent: { left: TWO ? 360 : 480, hanging: TWO ? 360 : 480 }, spacing: { line: TWO ? 200 : 260, after: TWO ? 20 : 60 }, children: [new Bookmark({ id: `ref_${i + 1}`, children: [new TextRun({ text: `[${i + 1}]`, size: TWO ? 15 : 20 })] }), new TextRun({ text: `\\t` + r, size: TWO ? 15 : 20 })], tabStops: [{ type: TabStopType.LEFT, position: 480 }] })),");
 }
 src += `
 const { Footer, PageNumber, SectionType } = require("docx");

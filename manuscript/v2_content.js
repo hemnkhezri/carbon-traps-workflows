@@ -305,6 +305,7 @@ const tS6 = smallTable([
   ["32", "15.20", "0.79", "7.4 / 2.2", "52.1 / 16.2 / 3.5", "0.76"],
   ["64", "15.81", "0.79", "9.7 / 2.5", "58.1 / 27.8 / 8.8", "0.76"],
 ], [1100, 1700, 1100, 1700, 2326, 1100]);
+LINKS = false;
 const supplementary = [
   C("**Supplementary Material for: Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts**", { spacing: { after: 240 } }, 28),
   P("Hemn Khezri, Mohammad Trik. This file contains the supplementary methods (Sections S1–S5), tables and figure cited in the main text. All values come from the public repository of the study; the scripts that produce each table are listed there."),
@@ -339,6 +340,7 @@ caption("**Table S4.** Alternative gates for CA-LS with safeguard (robustness st
   ...figure("figS3_sensitivity.png", 560, 200,
     "**Fig. S3.** Sensitivity to runtime noise and cluster size (GB issued forecasts, seed 10, all f; values of Tables S5 and S6). (a) Deadline misses under log-normal runtime noise of increasing spread and under the empirical run-to-run noise of WfInstances (shaded), 8 machines, static executor. (b) Carbon traps and (c) deadline misses (σ = 0.2) on clusters of 8, 32 and 64 machines (exploratory)."),
 ];
+LINKS = true;
 
 // ---------- Appendices ----------
 const appendices = [
