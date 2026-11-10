@@ -1,0 +1,18 @@
+backward: coverage 0.893 (pairs 642537); per-submission median 0.915, 10th pct 0.753; mean error +1.08 gCO2/kWh
+forward: coverage 0.903 (pairs 642537); per-submission median 0.922, 10th pct 0.791; mean error -1.08 gCO2/kWh
+forward coverage by lag x horizon bin:
+hor      0      1      2      3
+lag                            
+0    0.851  0.890  0.905  0.903
+1    0.814  0.860  0.907  0.904
+2      NaN  0.816  0.916  0.901
+3      NaN    NaN  0.870  0.903
+4      NaN    NaN    NaN  0.916
+forward mean error by lag x horizon bin:
+hor      0      1     2     3
+lag                          
+0     4.42   0.88 -0.47 -0.31
+1    12.47   6.33 -1.23 -0.86
+2      NaN  14.19 -0.56 -1.37
+3      NaN    NaN  4.15 -2.67
+4      NaN    NaN   NaN -2.13
