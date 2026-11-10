@@ -40,6 +40,7 @@ osf_registration/       registration of the winter replication
 | Heterogeneous platform (5.5, 6.7) | `protocol/plans/EXT2_PREREG.md` | `scripts/run_hetero.py` | `scripts/analyse_hetero.py`, `scripts/analyse_robust_hetero.py` | `results/hetero.csv`, `results/het/` | `reports/robust_stats_hetero.txt`, `reports/flat_timing.txt` |
 | Robustness study (5.6, 6.3-6.5) | `protocol/plans/EXT3_PREREG.md` | `scripts/run_revision.py` | `scripts/analyse_revision.py`, `scripts/analyse_r2.py` | `results/rev/` | `reports/revision_final.txt` |
 | Risk-controlled planner pilots (6.4) | `protocol/plans/PILOT_RC_PREREG.md`, `PILOT_RC2_PREREG.md` | `scripts/run_pilot_rc.py`, `scripts/run_pilot_rc2.py` | `scripts/analyse_pilot_rc.py` | `results/pilot_rc*.csv` | `reports/pilot_rc*.txt` |
+| ENTSO-E study, DE-LU and ES (5.7, 6.6) | `protocol/plans/EXT4_PREREG.md` | `scripts/download_entsoe.py`, `scripts/run_entsoe.py` | `scripts/analyse_entsoe.py`, `scripts/entsoe_kappa.py` | `results/entsoe_*.csv` | `reports/entsoe_report.txt` |
 | Cluster-size sensitivity (7.4) | `protocol/plans/SENS_PLAN.md` | `scripts/run_sens.py` | `scripts/analyse_sens.py` | `results/sens_P*.csv` | `reports/sensitivity.txt` |
 
 The plans are kept exactly as they were sealed, so file names inside them refer to the original flat layout
@@ -50,6 +51,8 @@ The plans are kept exactly as they were sealed, so file names inside them refer 
 - GB forecast vintages: public archive `nmpowell/carbon-intensity-forecast-tracking` (commit 578de5b). Clone it and pass
   its path as `ARCHIVE`.
 - CarbonCast forecasts: public CarbonCast repository `carbonfirst/CarbonCast` (commit 12d6989).
+- ENTSO-E Transparency Platform data: download with `scripts/download_entsoe.py` and your own API token;
+  `data/entsoe/` holds the checksums of every file used.
 - Run-to-run runtime variability: repeated executions in `wfcommons/WfInstances` (`results/emp_runtime_logratio.npy`).
 
 ## Reproducing
@@ -68,7 +71,7 @@ The other studies follow the same pattern (see the table above).
 
 ## Pre-registration and commit history
 
-Each analysis plan was committed before the results it governs were computed. The commit hashes in Table 4 of the
+Each analysis plan was committed before the results it governs were computed. The commit hashes in Supplementary Table S8 of the
 article (for example `55fff17`, the sealed confirmatory plan) can be checked with `git show <hash>`. The files were
 moved into the folders above in a later commit; `git log --follow <file>` shows the full history of any file.
 
