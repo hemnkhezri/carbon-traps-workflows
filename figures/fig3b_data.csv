@@ -1,0 +1,6 @@
+rows: lag bins 0-3,3-6,6-12,12-24,24-48 h; columns: horizon bins 0-6,6-12,12-24,24-48 h
+16,18,16,16
+31,34,32,32
+nan,42,43,44
+nan,nan,45,46
+nan,nan,nan,48

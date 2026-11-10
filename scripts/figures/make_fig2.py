@@ -28,6 +28,7 @@ lev = np.concatenate(lev)
 q_level_rule = np.quantile(-lev, 0.9) + np.quantile(lev, 0.9)
 q_dif = np.array([np.quantile(np.concatenate(dif[L]), 0.9) for L in lags])
 np.savetxt("figures/fig2_data.csv", np.c_[lags / 2, q_dif], delimiter=",", header="lag_h,q90_signed_diff_error", comments="")
+open("figures/fig2_level_rule.txt", "w").write(f"{q_level_rule:.4f}\n")  # threshold of the level-interval rule, read by make_fig_gate.py
 plt.rcParams.update({"font.family": "Liberation Serif", "mathtext.fontset": "stix", "font.size": 8.5})
 fig, ax = plt.subplots(figsize=(4.8, 3.0))
 ax.plot(lags / 2, q_dif, color="#2a78d6", lw=2, label="Difference gate: 0.9-quantile of difference error")

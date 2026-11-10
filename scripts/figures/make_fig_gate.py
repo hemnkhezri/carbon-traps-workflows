@@ -1,6 +1,8 @@
 """Fig. 3: the difference-error gate. (a) schematic of a difference error; (b) calibrated 0.9-quantiles per
-lag x horizon bin (GB development data, Aug-Oct 2023, pooled; cwf/gate.py calibrate with days=60);
-(c) required gain by lag (figures/fig2_data.csv from make_fig2.py, Mar 2023 - Feb 2024) with the decision regions."""
+lag x horizon bin (GB development data, the 60 days before 1 Nov 2023; cwf/gate.py calibrate, alpha = 0.9),
+computed here and saved to figures/fig3b_data.csv; cells where the lag exceeds the horizon are impossible;
+(c) required gain by lag (figures/fig2_data.csv and figures/fig2_level_rule.txt from make_fig2.py, Mar 2023 - Feb 2024).
+Usage: python scripts/figures/make_fig_gate.py ARCHIVE"""
 import os, sys
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 sys.path.insert(0, _REPO_ROOT)  # scripts are run from the repository root: python scripts/<name>.py
@@ -42,8 +44,17 @@ ax.text(12, 120, r"$e = (\bar F_a-\bar F_b) - (\bar A_a-\bar A_b)$", fontsize=9,
 
 # (b) quantile table
 ax = fig.add_axes([0.385, 0.17, 0.235, 0.68])
-q = np.array([[16, 18, 16, 16], [30, 34, 32, 32], [np.nan, 43, 43, 44], [np.nan, np.nan, 45, 46],
-              [np.nan, np.nan, np.nan, 48]])
+import pandas as pd
+from cwf.data import load_national, CIData
+from cwf.gate import calibrate, LAG_EDGES_H, HOR_EDGES_H
+_ci = CIData(*load_national(sys.argv[1], ["2023-08", "2023-09", "2023-10", "2023-11"]))
+q = calibrate(_ci, int(pd.Timestamp("2023-11-01", tz="UTC").timestamp()), 0.9, days=60).q.round()
+for i in range(q.shape[0]):          # a lag longer than the horizon cannot occur
+    for j in range(q.shape[1]):
+        if LAG_EDGES_H[i] >= HOR_EDGES_H[j + 1]:
+            q[i, j] = np.nan
+np.savetxt("figures/fig3b_data.csv", q, delimiter=",", fmt="%.0f",
+           header="rows: lag bins 0-3,3-6,6-12,12-24,24-48 h; columns: horizon bins 0-6,6-12,12-24,24-48 h", comments="")
 cmap = LinearSegmentedColormap.from_list("b", ["#eaf2fc", BLUE]); cmap.set_bad("#f3f3f1")
 ax.imshow(np.ma.masked_invalid(q), cmap=cmap, vmin=5, vmax=60, aspect="auto")
 for i in range(5):
@@ -63,8 +74,9 @@ lag, qd = np.loadtxt("figures/fig2_data.csv", delimiter=",", skiprows=1, unpack=
 ax.fill_between(lag, qd, 90, color=AQUA, alpha=0.10, lw=0)
 ax.fill_between(lag, 0, qd, color=NEUTRAL, alpha=0.10, lw=0)
 ax.plot(lag, qd, color=BLUE, lw=1.8)
-ax.axhline(77, color=ORANGE, ls="--", lw=1.4)
-ax.text(46.5, 79, "level-interval rule", color=ORANGE, fontsize=8, ha="right", va="bottom")
+LEVEL = float(open("figures/fig2_level_rule.txt").read())
+ax.axhline(LEVEL, color=ORANGE, ls="--", lw=1.4)
+ax.text(46.5, LEVEL + 2, "level-interval rule", color=ORANGE, fontsize=8, ha="right", va="bottom")
 ax.text(46.5, 52, "difference gate", color=BLUE, fontsize=8, ha="right", va="bottom")
 ax.text(30, 66, "defer", color=AQUA, fontsize=8.5, ha="center", fontweight="bold")
 ax.text(30, 18, "keep earliest start", color=INK2, fontsize=8.5, ha="center")
