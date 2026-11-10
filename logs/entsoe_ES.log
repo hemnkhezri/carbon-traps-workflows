@@ -1,0 +1,17 @@
+seed 50: 40 submissions
+seed 51: 40 submissions
+seed 52: 40 submissions
+1200 jobs; setup 10s
+  0/1200 done, 15s
+  100/1200 done, 227s
+  200/1200 done, 455s
+  300/1200 done, 641s
+  400/1200 done, 829s
+  500/1200 done, 1045s
+  600/1200 done, 1272s
+  700/1200 done, 1464s
+  800/1200 done, 1678s
+  900/1200 done, 1916s
+  1000/1200 done, 2164s
+  1100/1200 done, 2375s
+wrote results/entsoe_ES.csv: 72000 rows in 2575s

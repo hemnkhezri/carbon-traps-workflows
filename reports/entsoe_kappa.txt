@@ -1,0 +1,2 @@
+DE_LU: MAE 27.9 g/kWh, mean realised 299, within-day SD 71.9, kappa 0.39
+ES: MAE 21.4 g/kWh, mean realised 126, within-day SD 31.5, kappa 0.68

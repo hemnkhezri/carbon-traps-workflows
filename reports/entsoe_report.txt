@@ -1,0 +1,128 @@
+== Sanity checks
+rows 144000  jobs 2400  (planned 2400)
+submissions per zone {'DE_LU': 120, 'ES': 120}
+nominal misses 0
+oracle trap rate CA-List+SG: 0.00% (must be 0)
+oracle trap rate CA-LS+SG: 0.00% (must be 0)
+oracle trap rate CaWoSched+SG: 0.00% (must be 0)
+oracle trap rate CWM+SG: 0.00% (must be 0)
+
+== Primary (pooled over zones, clusters = zone x submission)
+[pooled] X1 R = 0.907 [0.871, 0.935]
+[pooled] X2 traps % 1.2: 3.583 [1.917, 5.375]; 1.5: 8.458 [5.667, 11.543]; 2.0: 10.708 [7.583, 14.208]; 3.0: 8.500 [5.708, 11.625]
+[pooled] X3 trap diff pp = -5.021 [-6.740, -3.458]; retention = 0.904 [0.865, 0.939]
+[pooled] X4 R(DE_LU) - R(ES) = 0.083 [0.024, 0.151]
+[pooled] X5 miss - HEFT miss pp 1.2: 38.542 [34.957, 41.833]; 1.5: 47.167 [42.750, 51.583]; 2.0: 47.958 [43.333, 52.459]; 3.0: 40.833 [36.000, 45.459]
+X1: criterion met; one-sided p = 0.0000; Holm p = 0.0000 -> Supported
+X2: criterion not met; one-sided p = 0.0330; Holm p = 0.0330 -> Not supported
+X3: criterion met; one-sided p = 0.0000; Holm p = 0.0000 -> Supported
+X4: criterion met; one-sided p = 0.0050; Holm p = 0.0100 -> Supported
+X5: criterion met; one-sided p = 0.0000; Holm p = 0.0000 -> Supported
+
+== Secondary: other clusterings
+[pooled/day] X1 R = 0.907 [0.869, 0.936]
+[pooled/day] X2 traps % 1.2: 3.583 [1.909, 5.546]; 1.5: 8.458 [5.555, 11.529]; 2.0: 10.708 [7.393, 14.220]; 3.0: 8.500 [5.469, 11.867]
+[pooled/day] X3 trap diff pp = -5.021 [-6.907, -3.250]; retention = 0.904 [0.863, 0.940]
+[pooled/day] X4 R(DE_LU) - R(ES) = 0.083 [0.013, 0.158]
+[pooled/day] X5 miss - HEFT miss pp 1.2: 38.542 [35.079, 41.849]; 1.5: 47.167 [42.875, 51.429]; 2.0: 47.958 [43.291, 52.813]; 3.0: 40.833 [36.116, 45.551]
+[day] clusters=206 criteria={'X1': np.True_, 'X2': np.False_, 'X3': np.True_, 'X4': np.True_, 'X5': np.True_} Holm={'X1': 0, 'X3': 0, 'X5': 0, 'X4': np.float64(0.022), 'X2': np.float64(0.0375)}
+[pooled/week] X1 R = 0.907 [0.861, 0.941]
+[pooled/week] X2 traps % 1.2: 3.583 [1.825, 5.634]; 1.5: 8.458 [5.384, 11.894]; 2.0: 10.708 [7.208, 14.576]; 3.0: 8.500 [5.364, 11.895]
+[pooled/week] X3 trap diff pp = -5.021 [-6.994, -3.291]; retention = 0.904 [0.860, 0.942]
+[pooled/week] X4 R(DE_LU) - R(ES) = 0.083 [0.006, 0.167]
+[pooled/week] X5 miss - HEFT miss pp 1.2: 38.542 [34.641, 42.134]; 1.5: 47.167 [41.959, 51.879]; 2.0: 47.958 [43.185, 52.411]; 3.0: 40.833 [36.081, 45.350]
+[week] clusters=91 criteria={'X1': np.True_, 'X2': np.False_, 'X3': np.True_, 'X4': np.True_, 'X5': np.True_} Holm={'X1': 0, 'X3': 0, 'X5': 0, 'X4': np.float64(0.04), 'X2': np.float64(0.044)}
+
+== Secondary: per zone (X1-X3, X5)
+[DE_LU] X1 R = 0.946 [0.894, 0.974]
+[DE_LU] X2 traps % 1.2: 1.167 [0.333, 2.333]; 1.5: 3.667 [1.665, 6.252]; 2.0: 7.500 [4.081, 11.333]; 3.0: 5.667 [2.831, 9.167]
+[DE_LU] X3 trap diff pp = -2.375 [-3.646, -1.271]; retention = 0.954 [0.928, 0.979]
+[DE_LU] X5 miss - HEFT miss pp 1.2: 38.667 [33.667, 43.500]; 1.5: 50.417 [44.165, 56.750]; 2.0: 51.583 [44.583, 58.583]; 3.0: 41.750 [35.167, 48.583]
+[ES] X1 R = 0.863 [0.806, 0.908]
+[ES] X2 traps % 1.2: 6.000 [3.083, 9.250]; 1.5: 13.250 [8.167, 18.419]; 2.0: 13.917 [8.917, 19.252]; 3.0: 11.333 [6.583, 16.421]
+[ES] X3 trap diff pp = -7.667 [-10.833, -4.729]; retention = 0.841 [0.765, 0.908]
+[ES] X5 miss - HEFT miss pp 1.2: 38.417 [33.500, 43.167]; 1.5: 43.917 [37.667, 50.333]; 2.0: 44.333 [37.917, 51.000]; 3.0: 39.917 [33.833, 46.419]
+
+== Descriptive: by season (CA-LS+SG, f >= 1.5 for R; all f for traps)
+ zone season  n_sub  oracle_saving     R  trap1  trap1_gate
+DE_LU    DJF     23          3.706 0.908  3.804       2.391
+DE_LU    JJA     33         19.720 0.983  1.894       1.136
+DE_LU    MAM     37         13.989 0.907  7.568       3.716
+DE_LU    SON     27         11.247 0.944  4.074       0.926
+   ES    DJF     23          7.796 0.845  8.478       2.500
+   ES    JJA     32         16.316 0.936  5.078       0.078
+   ES    MAM     38          8.140 0.720 19.342       7.829
+   ES    SON     27         12.575 0.890  8.981       2.130
+
+== Descriptive: emission saving % and native saving % (oracle vs issued)
+
+-- saving
+regime                issued  oracle  synthetic
+sched         region                           
+CA-LS+SG      DE_LU     9.57   10.14       7.46
+              ES        7.59    8.83       6.24
+CA-LS+SG+Gate DE_LU     9.12     NaN        NaN
+              ES        6.38     NaN        NaN
+CWM+SG        DE_LU     4.24    4.44        NaN
+              ES        3.32    3.94        NaN
+CaWoSched+SG  DE_LU     8.93    9.50        NaN
+              ES        7.11    8.09        NaN
+Shift         DE_LU    10.20   10.63       9.22
+              ES        7.76    8.98       7.58
+
+-- native_saving
+regime                issued  oracle  synthetic
+sched         region                           
+CA-LS+SG      DE_LU    22.13   35.43     -14.98
+              ES       16.59   35.12      -8.67
+CA-LS+SG+Gate DE_LU    23.18     NaN        NaN
+              ES       17.48     NaN        NaN
+CWM+SG        DE_LU    19.64   22.42        NaN
+              ES       18.77   24.11        NaN
+CaWoSched+SG  DE_LU    37.06   44.35        NaN
+              ES       31.44   44.64        NaN
+Shift         DE_LU    29.77   38.24       9.79
+              ES       18.35   36.33      13.45
+
+-- trap1 % issued by scheduler and zone
+region           DE_LU     ES
+sched                        
+CA-LS+SG          4.50  11.12
+CA-LS+SG+Gate     2.12   3.46
+CA-List+SG        4.35  10.94
+CA-List+SG+Gate   2.12   3.50
+CWM+SG            3.10   6.33
+CaWoSched+SG      3.27   9.73
+Shift             3.46  11.96
+
+-- deadline misses with runtime noise %, issued, by scheduler and f
+                     miss_rt  heft
+sched           f                 
+CA-LS+SG        1.2    40.12  1.58
+                1.5    47.42  0.25
+                2.0    47.96  0.00
+                3.0    40.83  0.00
+CA-LS+SG+Gate   1.2    21.54  1.58
+                1.5    28.54  0.25
+                2.0    24.58  0.00
+                3.0    27.42  0.00
+CA-List+SG      1.2    31.13  1.58
+                1.5    42.92  0.25
+                2.0    44.46  0.00
+                3.0    37.71  0.00
+CA-List+SG+Gate 1.2    18.50  1.58
+                1.5    26.75  0.25
+                2.0    22.42  0.00
+                3.0    25.46  0.00
+CWM+SG          1.2    46.62  1.58
+                1.5    37.21  0.25
+                2.0    38.42  0.00
+                3.0    38.33  0.00
+CaWoSched+SG    1.2    33.42  1.58
+                1.5    26.75  0.25
+                2.0    24.58  0.00
+                3.0    20.62  0.00
+Shift           1.2    54.00  1.58
+                1.5    45.62  0.25
+                2.0    38.00  0.00
+                3.0    37.88  0.00
