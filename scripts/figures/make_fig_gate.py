@@ -19,28 +19,33 @@ style.apply()
 SYM = dict(fontfamily="DejaVu Sans", fontweight="bold")
 fig = plt.figure(figsize=(7.0, 2.55))
 
-# (a) difference error on one window pair: the forecast favours b, the realised intensity favours a
+# (a) difference error on one window pair: the forecast favours b, the realised intensity favours a.
+# The two gains are drawn side by side in a lane right of b, so no arrow or label sits on a curve.
 ax = fig.add_axes([0.035, 0.17, 0.27, 0.68])
-t = np.linspace(0, 24, 300)
-A = 178 - 32 * np.exp(-((t - 5) / 2.5) ** 2) - 8 * np.exp(-((t - 16) / 3) ** 2)
-F = 184 - 8 * np.exp(-((t - 5) / 2.5) ** 2) - 44 * np.exp(-((t - 16) / 2.6) ** 2)
+t = np.linspace(0, 19, 300)
+A = 176 - 30 * np.exp(-((t - 4) / 2.2) ** 2) - 6 * np.exp(-((t - 13) / 2.5) ** 2)
+F = 182 - 6 * np.exp(-((t - 4) / 2.2) ** 2) - 42 * np.exp(-((t - 13) / 2.2) ** 2)
 ax.plot(t, F, color=ORANGE, ls="--", lw=1.5, label="forecast")
 ax.plot(t, A, color=BLUE, lw=1.6, label="realised")
-a, b = 5, 16
+a, b = 4, 13
 fa, fb, aa, ab = (np.interp(x, t, y) for x, y in ((a, F), (b, F), (a, A), (b, A)))
 for x in (a, b):
-    ax.axvline(x, color=NEUTRAL, lw=0.7, ls=":")
+    ax.axvline(x, color=NEUTRAL, lw=0.6, ls=":", zorder=0)
+xf, xr = 20.6, 24.4                                   # lanes for the forecast and the realised gain
+for y0, y1, x, c in ((fa, fb, xf, ORANGE), (aa, ab, xr, BLUE)):
+    for (xs, y) in ((a, y0), (b, y1)):
+        ax.plot([xs, x + 0.6], [y, y], color=c, lw=0.5, alpha=0.45, zorder=1)
+    ax.annotate("", xy=(x, y1), xytext=(x, y0), arrowprops=dict(arrowstyle="-|>", color=c, lw=1.4, mutation_scale=9))
 ax.plot([a, b], [fa, fb], "o", color=ORANGE, ms=4.5, mec="white", zorder=4)
 ax.plot([a, b], [aa, ab], "o", color=BLUE, ms=4.5, mec="white", zorder=4)
-ax.annotate("", xy=(b + 2.2, fb), xytext=(b + 2.2, fa), arrowprops=dict(arrowstyle="-|>", color=ORANGE, lw=1.2, mutation_scale=8))
-ax.text(b + 2.7, (fa + fb) / 2, "forecast\ngain > 0", color=ORANGE, fontsize=8, va="center")
-ax.annotate("", xy=(a - 2.2, ab), xytext=(a - 2.2, aa), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1.2, mutation_scale=8))
-ax.text(a - 2.2, aa - 6, "realised\ngain < 0", color=BLUE, fontsize=8, va="top", ha="center")
-ax.set_xticks([a, b], ["start $a$", "deferred $b$"], fontsize=10); ax.set_yticks([]); ax.grid(False)
-ax.set_xlim(-1.5, 25); ax.set_ylim(118, 200)
-ax.legend(loc="upper center", ncol=2, fontsize=8, handlelength=1.8, borderaxespad=0.1, columnspacing=1.0)
+ax.text((xf + xr) / 2, max(fa, ab) + 4, "gain", color=INK2, fontsize=8, ha="center", va="bottom")
+ax.text(xf, min(fb, ab) - 5, "> 0", color=ORANGE, fontsize=8.5, ha="center", va="top")
+ax.text(xr, min(fb, ab) - 5, "< 0", color=BLUE, fontsize=8.5, ha="center", va="top")
+ax.set_xticks([a, b], ["start $a$", "deferred $b$"], fontsize=9.5); ax.set_yticks([]); ax.grid(False)
+ax.set_xlim(0, 26.5); ax.set_ylim(122, 206)
+ax.legend(loc="upper left", ncol=2, fontsize=8, handlelength=1.8, borderaxespad=0.2, columnspacing=1.0, frameon=False)
 ax.set_title("(a) Error of a deferral decision", loc="left", fontweight="bold")
-ax.text(12, 120, r"$e = (\bar F_a-\bar F_b) - (\bar A_a-\bar A_b)$", fontsize=9, ha="center", va="bottom")
+ax.set_xlabel(r"$e = (\bar F_a-\bar F_b) - (\bar A_a-\bar A_b)$", fontsize=9, labelpad=3)
 
 # (b) quantile table
 ax = fig.add_axes([0.385, 0.17, 0.235, 0.68])
