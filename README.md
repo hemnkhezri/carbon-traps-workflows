@@ -5,7 +5,7 @@
 Code, sealed analysis plans, deviation logs and raw results for the article
 
 > H. Khezri, M. Trik, *Mitigating Carbon Traps in Carbon-Aware Workflow Scheduling under Real Carbon-Intensity Forecasts*
-> (submitted to Future Generation Computer Systems).
+> (manuscript under review).
 
 The study replays deadline-constrained WfCommons workflows against carbon-intensity forecasts that the Great Britain
 grid operator actually issued (and CarbonCast model forecasts for four further grids). It covers our list and
